@@ -19,7 +19,7 @@ class JsonRpcException extends \Exception
         private readonly ?ResponseInterface $response = null,
         ?Throwable $previous = null,
     ) {
-        parent::__construct($message, $this->response->getStatusCode(), $previous);
+        parent::__construct($message, $this->response?->getStatusCode() ?? 0, $previous);
     }
 
     public function getResponse(): ?ResponseInterface

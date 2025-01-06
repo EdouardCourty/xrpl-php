@@ -21,10 +21,12 @@ readonly class JsonRpcRequest
 
     public function toArray(): array
     {
+        $params = empty($this->params) ? $this->params : [$this->params];
+
         return [
             'jsonrpc' => $this->version,
             'method' => $this->method,
-            'params' => $this->params,
+            'params' => $params,
             'id' => $this->id,
         ];
     }
