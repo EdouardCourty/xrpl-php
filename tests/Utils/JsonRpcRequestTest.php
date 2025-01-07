@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Model;
+namespace Utils;
 
 use PHPUnit\Framework\TestCase;
 use XRPL\Utils\JsonRpcRequest;
