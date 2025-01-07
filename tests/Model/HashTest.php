@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace XRPL\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
-use XRPL\src\Type\Hash;
+use XRPL\Type\Hash;
 
 /**
  * @author Edouard Courty <edouard.courty2@gmail.com>
  *
- * @coversDefaultClass \XRPL\src\Type\Hash
+ * @coversDefaultClass \XRPL\Type\Hash
  */
 class HashTest extends TestCase
 {

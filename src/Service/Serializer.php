@@ -15,9 +15,12 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use XRPL\Denormalizer\CurrencyAmountDenormalizer;
-use XRPL\Denormalizer\LedgerEntryNodeDenormalizer;
-use XRPL\Denormalizer\ServerDefinitionsDenormalizer;
+use XRPL\Service\Denormalizer\CurrencyAmountDenormalizer;
+use XRPL\Service\Denormalizer\LedgerEntryDenormalizer;
+use XRPL\Service\Denormalizer\NFTokenDenormalizer;
+use XRPL\Service\Denormalizer\NFTokenObjectDenormalizer;
+use XRPL\Service\Denormalizer\NFTokenPageDenormalizer;
+use XRPL\Service\Denormalizer\ServerDefinitionsDenormalizer;
 
 class Serializer extends \Symfony\Component\Serializer\Serializer
 {
@@ -31,13 +34,16 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
             [$phpDocExtractor, $reflectionExtractor],
             [$phpDocExtractor, $reflectionExtractor],
             [$reflectionExtractor],
-            [$reflectionExtractor]
+            [$reflectionExtractor],
         );
 
         $normalizers = [
             new CurrencyAmountDenormalizer(),
-            new LedgerEntryNodeDenormalizer(),
+            new LedgerEntryDenormalizer($this),
+            new NFTokenPageDenormalizer($this),
             new ServerDefinitionsDenormalizer(),
+            new NFTokenObjectDenormalizer(),
+            new NFTokenDenormalizer(),
             new ArrayDenormalizer(),
             new DateTimeNormalizer(),
             new ObjectNormalizer(
@@ -48,10 +54,14 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
                 null,
                 null,
                 [],
-                $propertyInfoExtractor
+                $propertyInfoExtractor,
             ),
         ];
 
-        parent::__construct($normalizers, [new JsonDecode()]);
+        $decoders = [
+            new JsonDecode([JsonDecode::ASSOCIATIVE => true]),
+        ];
+
+        parent::__construct($normalizers, $decoders);
     }
 }

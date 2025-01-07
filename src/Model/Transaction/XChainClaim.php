@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace XRPL\Model\Transaction;
 
 use XRPL\Model\AbstractTransaction;
-use XRPL\Model\Transaction\Nested\CurrencyAmount;
-use XRPL\Model\Transaction\Nested\XChainBridge;
+use XRPL\Model\Common\CurrencyAmount;
+use XRPL\Model\Common\XChainBridge;
 
 /**
  * @see https://xrpl.org/docs/references/protocol/transactions/types/xchainclaim

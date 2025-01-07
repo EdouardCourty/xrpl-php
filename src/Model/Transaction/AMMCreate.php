@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace XRPL\Model\Transaction;
 
 use XRPL\Model\AbstractTransaction;
-use XRPL\Model\Transaction\Nested\AMMPoolAsset;
-use XRPL\Model\Transaction\Nested\AuthAccount;
-use XRPL\Model\Transaction\Nested\CurrencyAmount;
+use XRPL\Model\Common\CurrencyAmount;
 
 /**
  * @see https://xrpl.org/ammcreate.html

@@ -8,5 +8,5 @@ class PortDescriptor
 {
     public int|string $port;
     /** @var string[] */
-    public array $protocol;
+    public array $protocol = [];
 }

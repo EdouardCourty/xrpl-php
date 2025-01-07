@@ -32,9 +32,9 @@ readonly class PaymentChannelClient
             'passphrase' => $passphrase,
         ]);
 
-        if (count($providedParams) > 1) {
+        if (\count($providedParams) > 1) {
             throw new \InvalidArgumentException(
-                'Only one of $secret, $seed, $seedHex, $passphrase should be set.'
+                'Only one of $secret, $seed, $seedHex, $passphrase should be set.',
             );
         }
 

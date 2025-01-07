@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XRPL\Model;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use XRPL\Model\Transaction\Memo;
 
 abstract class AbstractTransaction
@@ -12,6 +13,7 @@ abstract class AbstractTransaction
     public string $transactionType;
     public string $fee;
     public int $sequence;
+    #[SerializedName('AccountTxnID')]
     public ?string $accountTxnID = null;
     public ?int $flags = null;
     public ?int $lastLedgerSequence = null;
@@ -23,4 +25,7 @@ abstract class AbstractTransaction
     public string $signingPubKey;
     public ?int $ticketSequence = null;
     public string $txnSignature;
+    public ?string $hash = null;
+    public ?int $date = null;
+    public ?int $ledgerIndex = null;
 }

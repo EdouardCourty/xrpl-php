@@ -16,7 +16,7 @@ final readonly class Hash
     public function __construct(
         string $hash,
     ) {
-        if (strlen($hash) !== self::LENGTH) {
+        if (\strlen($hash) !== self::LENGTH) {
             throw new \InvalidArgumentException('Hash must be 64 characters long');
         }
 

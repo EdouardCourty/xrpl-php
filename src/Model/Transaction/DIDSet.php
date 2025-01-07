@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XRPL\Model\Transaction;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use XRPL\Model\AbstractTransaction;
 
 /**
@@ -10,6 +13,8 @@ use XRPL\Model\AbstractTransaction;
 class DIDSet extends AbstractTransaction
 {
     public ?string $data = null;
+    #[SerializedName('DIDDocument')]
     public ?string $DIDDocument = null;
+    #[SerializedName('URI')]
     public ?string $uri = null;
 }

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace XRPL\Client\SubClient;
 
 use XRPL\Client\JsonRpcClient;
-use XRPL\Denormalizer\TransactionDenormalizer;
+use XRPL\Enum\LedgerEntryEnum;
 use XRPL\Model\Ledger\LedgerClosed;
 use XRPL\Model\Ledger\LedgerCurrent;
 use XRPL\Model\Ledger\LedgerData;
 use XRPL\Model\Ledger\LedgerEntry;
 use XRPL\Model\Ledger\LedgerResult;
+use XRPL\Service\Denormalizer\TransactionDenormalizer;
 use XRPL\Service\Serializer;
 
 readonly class LedgerClient
@@ -29,7 +30,7 @@ readonly class LedgerClient
      */
     public function getLedger(
         ?string $ledgerHash = null,
-        ?string $ledgerIndex = null,
+        string|int|null $ledgerIndex = null,
         bool $transactions = false,
         bool $expand = false,
         bool $ownerFunds = false,
@@ -40,14 +41,9 @@ readonly class LedgerClient
             'expand' => $expand,
             'owner_funds' => $ownerFunds,
             'queue' => $includeQueuedTransactions,
+            'ledger_hash' => $ledgerHash,
+            'ledger_index' => $ledgerIndex,
         ];
-
-        if ($ledgerHash !== null) {
-            $payload['ledger_hash'] = $ledgerHash;
-        }
-        if ($ledgerIndex !== null) {
-            $payload['ledger_index'] = $ledgerIndex;
-        }
 
         $result = $this->jsonRpcClient->getResult('ledger', $payload);
 
@@ -87,33 +83,22 @@ readonly class LedgerClient
 
     public function getLedgerData(
         ?string $ledgerHash = null,
-        ?int $ledgerIndex = null,
+        string|int|null $ledgerIndex = null,
         bool $binary = false,
         ?int $limit = null,
         mixed $marker = null,
         ?string $type = null,
     ): LedgerData {
+        $type = LedgerEntryEnum::tryFrom($type)?->value;
+
         $payload = [
             'binary' => $binary,
+            'ledger_hash' => $ledgerHash,
+            'ledger_index' => $ledgerIndex,
+            'limit' => $limit,
+            'marker' => $marker,
+            'type' => $type,
         ];
-
-        if ($ledgerHash !== null) {
-            $payload['ledger_hash'] = $ledgerHash;
-        }
-        if ($ledgerIndex !== null) {
-            $payload['ledger_index'] = $ledgerIndex;
-        }
-        if ($limit !== null) {
-            $payload['limit'] = $type;
-        }
-        if ($marker !== null) {
-            $payload['marker'] = $type;
-        }
-        if ($type !== null) {
-            $type = LedgerEntry::from($type);
-
-            $payload['type'] = $type->value;
-        }
 
         $result = $this->jsonRpcClient->getResult('ledger_data', $payload);
 
@@ -132,18 +117,11 @@ readonly class LedgerClient
     ): LedgerEntry {
         $payload = [
             'binary' => $binary,
+            'ledger_hash' => $ledgerHash,
+            'ledger_index' => $ledgerIndex,
+            'include_deleted' => $includeDeleted,
         ];
         $payload = array_merge($payload, $parameters);
-
-        if ($ledgerHash !== null) {
-            $payload['ledger_hash'] = $ledgerHash;
-        }
-        if ($ledgerIndex !== null) {
-            $payload['ledger_index'] = $ledgerIndex;
-        }
-        if ($includeDeleted !== null) {
-            $payload['include_deleted'] = $includeDeleted;
-        }
 
         $result = $this->jsonRpcClient->getResult('ledger_entry', $payload);
 

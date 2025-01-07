@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace XRPL\Client;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use XRPL\Exception\JsonRpcException;
 use XRPL\Model\Response\RippledResponse;
 use XRPL\Service\Serializer;
 use XRPL\Utils\JsonRpcRequest;
 use XRPL\Utils\UuidGenerator;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @author Edouard Courty <edouard.courty2@gmail.com>
