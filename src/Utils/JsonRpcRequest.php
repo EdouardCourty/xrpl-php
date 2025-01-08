@@ -21,7 +21,8 @@ readonly class JsonRpcRequest
 
     public function toArray(): array
     {
-        $params = empty($this->params) ? [] : [array_filter($this->params, static fn($value) => $value !== null)];
+        $filteredParams = array_filter($this->params, static fn($value) => $value !== null);
+        $params = empty($filteredParams) ? [] : [$filteredParams];
 
         return [
             'jsonrpc' => $this->version,

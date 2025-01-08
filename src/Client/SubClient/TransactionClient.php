@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
+use XRPL\Exception\TransactionNotFoundException;
 use XRPL\Model\AbstractTransaction;
 use XRPL\Model\Transaction\MultiSignedSubmittedTransaction;
 use XRPL\Model\Transaction\SubmittedTransaction;
@@ -71,6 +72,9 @@ readonly class TransactionClient extends AbstractClient
         return $this->serializer->deserialize(json_encode($response), MultiSignedSubmittedTransaction::class, 'json');
     }
 
+    /**
+     * @throws TransactionNotFoundException
+     */
     public function getTransactionAtLedger(
         string $transactionHash,
         ?string $ledgerHash = null,
@@ -95,7 +99,7 @@ readonly class TransactionClient extends AbstractClient
         $transactionEntry = $this->serializer->deserialize(json_encode($response), TransactionEntry::class, 'json');
 
         if ($transactionEntry->transaction === null) {
-            throw new \RuntimeException('Transaction not found.');
+            throw TransactionNotFoundException::fromIdentifier($transactionHash);
         }
 
         return $transactionEntry;
