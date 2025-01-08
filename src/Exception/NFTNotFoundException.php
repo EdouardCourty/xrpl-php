@@ -8,6 +8,6 @@ class NFTNotFoundException extends \Exception
 {
     public static function fromIdentifier(string|int $identifier): self
     {
-        return new self(sprintf('NFT with identifier %s not found', $identifier));
+        return new self(\sprintf('NFT with identifier %s not found', $identifier));
     }
 }

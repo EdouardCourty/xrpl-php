@@ -13,10 +13,13 @@
     "require": {
         "php": ">=8.3",
         "ext-bcmath": "*",
+        "ext-sodium": "*",
+        "ext-gmp": "*",
         "symfony/http-client": "^7.2",
         "symfony/property-access": "^7.2",
         "symfony/serializer": "^7.2",
-        "phpdocumentor/reflection-docblock": "^5.6"
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "simplito/elliptic-php": "^1.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.0",

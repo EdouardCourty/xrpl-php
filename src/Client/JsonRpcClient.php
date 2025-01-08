@@ -28,7 +28,10 @@ readonly class JsonRpcClient
         $this->serializer = new Serializer();
     }
 
-    public function request(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT)
+    /**
+     * @throws JsonRpcException
+     */
+    public function request(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT): RippledResponse
     {
         $request = new JsonRpcRequest(UuidGenerator::v4(), $method, $params);
         $response = null;

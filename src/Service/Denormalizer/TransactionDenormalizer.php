@@ -21,7 +21,7 @@ readonly class TransactionDenormalizer implements DenormalizerInterface
         ?string $format = null,
         array $context = [],
     ): ?AbstractTransaction {
-        if (false === is_array($data)) {
+        if (false === \is_array($data)) {
             return null;
         }
 
