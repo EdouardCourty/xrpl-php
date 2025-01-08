@@ -4,27 +4,15 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
-use XRPL\Client\JsonRpcClient;
 use XRPL\Enum\LedgerEntryEnum;
 use XRPL\Model\Ledger\LedgerClosed;
 use XRPL\Model\Ledger\LedgerCurrent;
 use XRPL\Model\Ledger\LedgerData;
 use XRPL\Model\Ledger\LedgerEntry;
 use XRPL\Model\Ledger\LedgerResult;
-use XRPL\Service\Denormalizer\TransactionDenormalizer;
-use XRPL\Service\Serializer;
 
-readonly class LedgerClient
+readonly class LedgerClient extends AbstractClient
 {
-    private TransactionDenormalizer $transactionDeserializer;
-
-    public function __construct(
-        private Serializer $serializer,
-        private JsonRpcClient $jsonRpcClient,
-    ) {
-        $this->transactionDeserializer = new TransactionDenormalizer($this->serializer);
-    }
-
     /**
      * @note If `transactions` is set to true but `expand` is set to false, only the `transactionIds` field will be populated.
      */
@@ -45,20 +33,17 @@ readonly class LedgerClient
             'ledger_index' => $ledgerIndex,
         ];
 
-        $result = $this->jsonRpcClient->getResult('ledger', $payload);
+        $response = $this->jsonRpcClient->getResult('ledger', $payload);
 
-        /** @var LedgerResult $ledgerResponse */
-        $ledgerResponse = $this->serializer->deserialize(json_encode($result), LedgerResult::class, 'json');
+        /** @var LedgerResult $ledgerResult */
+        $ledgerResult = $this->serializer->deserialize(json_encode($response), LedgerResult::class, 'json');
 
         if ($transactions === true && $expand === false) {
-            $ledgerResponse->ledger->transactionIds = $result->ledger->transactions;
+            $ledgerResult->ledger->transactionIds = $response['ledger']['transactions'];
+            $ledgerResult->ledger->transactions = [];
         }
 
-        if ($transactions === true && $expand === true) {
-            $ledgerResponse->ledger->transactions = $this->transactionDeserializer->deserializeList($result->ledger->transactions);
-        }
-
-        return $ledgerResponse;
+        return $ledgerResult;
     }
 
     public function getLedgerClosed(): LedgerClosed

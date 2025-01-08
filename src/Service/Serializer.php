@@ -21,6 +21,7 @@ use XRPL\Service\Denormalizer\NFTokenDenormalizer;
 use XRPL\Service\Denormalizer\NFTokenObjectDenormalizer;
 use XRPL\Service\Denormalizer\NFTokenPageDenormalizer;
 use XRPL\Service\Denormalizer\ServerDefinitionsDenormalizer;
+use XRPL\Service\Denormalizer\TransactionDenormalizer;
 
 class Serializer extends \Symfony\Component\Serializer\Serializer
 {
@@ -41,6 +42,7 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
             new CurrencyAmountDenormalizer(),
             new LedgerEntryDenormalizer($this),
             new NFTokenPageDenormalizer($this),
+            new TransactionDenormalizer($this),
             new ServerDefinitionsDenormalizer(),
             new NFTokenObjectDenormalizer(),
             new NFTokenDenormalizer(),

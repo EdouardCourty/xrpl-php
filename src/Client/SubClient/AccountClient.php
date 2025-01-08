@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
-use XRPL\Client\JsonRpcClient;
 use XRPL\Enum\AccountLedgerEntryEnum;
 use XRPL\Model\Account\AccountChannels;
 use XRPL\Model\Account\AccountCurrencies;
@@ -16,22 +15,9 @@ use XRPL\Model\Account\AccountOffers;
 use XRPL\Model\Account\AccountTransactions;
 use XRPL\Model\Account\GatewayBalances;
 use XRPL\Model\Account\NoRippleCheck;
-use XRPL\Model\Utility\Ping;
-use XRPL\Model\Utility\Random;
-use XRPL\Service\Denormalizer\TransactionDenormalizer;
-use XRPL\Service\Serializer;
 
-readonly class AccountClient
+readonly class AccountClient extends AbstractClient
 {
-    private TransactionDenormalizer $transactionDenormalizer;
-
-    public function __construct(
-        private Serializer $serializer,
-        private JsonRpcClient $jsonRpcClient,
-    ) {
-        $this->transactionDenormalizer = new TransactionDenormalizer($this->serializer);
-    }
-
     public function getAccountChannels(
         string $address,
         ?string $destinationAccount = null,
@@ -186,8 +172,7 @@ readonly class AccountClient
         bool $forward = false,
         ?int $limit = null,
         mixed $marker = null,
-    ): AccountTransactions
-    {
+    ): AccountTransactions {
         $providedParams = array_filter([
             'ledger_index_min' => $ledgerIndexMin,
             'ledger_index_max' => $ledgerIndexMax,
@@ -222,10 +207,7 @@ readonly class AccountClient
 
         $response = $this->jsonRpcClient->getResult('account_tx', $params);
 
-        $accountTransaction = $this->serializer->deserialize(json_encode($response), AccountTransactions::class, 'json');
-        $accountTransaction->transactions = $this->transactionDenormalizer->deserializeListForAccount($response->transactions);
-
-        return $accountTransaction;
+        return $this->serializer->deserialize(json_encode($response), AccountTransactions::class, 'json');
     }
 
     public function getGatewayBalances(
@@ -271,9 +253,6 @@ readonly class AccountClient
 
         $response = $this->jsonRpcClient->getResult('noripple_check', $params);
 
-        $noRippleCheck = $this->serializer->deserialize(json_encode($response), NoRippleCheck::class, 'json');
-        $noRippleCheck->transactions = $this->transactionDenormalizer->deserializeList($response->transactions ?? []);
-
-        return $noRippleCheck;
+        return $this->serializer->deserialize(json_encode($response), NoRippleCheck::class, 'json');
     }
 }

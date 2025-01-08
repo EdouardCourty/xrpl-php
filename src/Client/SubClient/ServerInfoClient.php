@@ -4,22 +4,14 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
-use XRPL\Client\JsonRpcClient;
 use XRPL\Model\ServerInfo\Fee;
 use XRPL\Model\ServerInfo\Manifest;
 use XRPL\Model\ServerInfo\ServerDefinitions;
 use XRPL\Model\ServerInfo\ServerState;
 use XRPL\Model\ServerInfo\VersionResults;
-use XRPL\Service\Serializer;
 
-readonly class ServerInfoClient
+readonly class ServerInfoClient extends AbstractClient
 {
-    public function __construct(
-        private Serializer $serializer,
-        private JsonRpcClient $jsonRpcClient,
-    ) {
-    }
-
     public function getFee(): Fee
     {
         $response = $this->jsonRpcClient->getResult('fee');

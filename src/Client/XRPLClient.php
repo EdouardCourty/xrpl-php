@@ -8,6 +8,7 @@ use XRPL\Client\SubClient\AccountClient;
 use XRPL\Client\SubClient\LedgerClient;
 use XRPL\Client\SubClient\PaymentChannelClient;
 use XRPL\Client\SubClient\ServerInfoClient;
+use XRPL\Client\SubClient\TransactionClient;
 use XRPL\Client\SubClient\UtilityClient;
 use XRPL\Service\Serializer;
 
@@ -21,7 +22,8 @@ readonly class XRPLClient
 
     public AccountClient $account;
     public LedgerClient $ledger;
-    public PaymentChannelClient $paymentChannelClient;
+    public TransactionClient $transaction;
+    public PaymentChannelClient $paymentChannels;
     public ServerInfoClient $serverInfo;
     public UtilityClient $utility;
 
@@ -33,7 +35,8 @@ readonly class XRPLClient
 
         $this->account = new AccountClient($this->serializer, $this->jsonRpcClient);
         $this->ledger = new LedgerClient($this->serializer, $this->jsonRpcClient);
-        $this->paymentChannelClient = new PaymentChannelClient($this->serializer, $this->jsonRpcClient);
+        $this->transaction = new TransactionClient($this->serializer, $this->jsonRpcClient);
+        $this->paymentChannels = new PaymentChannelClient($this->serializer, $this->jsonRpcClient);
         $this->serverInfo = new ServerInfoClient($this->serializer, $this->jsonRpcClient);
         $this->utility = new UtilityClient($this->serializer, $this->jsonRpcClient);
     }

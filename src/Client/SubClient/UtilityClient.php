@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
-use XRPL\Client\JsonRpcClient;
 use XRPL\Model\Utility\Ping;
 use XRPL\Model\Utility\Random;
-use XRPL\Service\Serializer;
 
-readonly class UtilityClient
+readonly class UtilityClient extends AbstractClient
 {
-    public function __construct(
-        private Serializer $serializer,
-        private JsonRpcClient $jsonRpcClient,
-    ) {
-    }
-
     public function ping(): Ping
     {
         $response = $this->jsonRpcClient->getResult('ping');

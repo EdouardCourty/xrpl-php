@@ -4,54 +4,41 @@ declare(strict_types=1);
 
 namespace XRPL\Service\Denormalizer;
 
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Enum\TransactionTypeEnum;
 use XRPL\Model\AbstractTransaction;
 use XRPL\Service\Serializer;
 
-readonly class TransactionDenormalizer
+readonly class TransactionDenormalizer implements DenormalizerInterface
 {
     public function __construct(private Serializer $serializer)
     {
     }
 
-    public function denormalize(array $data): AbstractTransaction
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = [],
+    ): ?AbstractTransaction {
+        if (false === is_array($data)) {
+            return null;
+        }
+
         $transactionType = TransactionTypeEnum::tryFrom($data['TransactionType']) ?: TransactionTypeEnum::Unknown;
 
         return $this->serializer->deserialize(json_encode($data), $transactionType->getClass(), 'json');
     }
 
-    /**
-     * @param \stdClass[] $data
-     * @return AbstractTransaction[]
-     */
-    public function deserializeList(array $data): array
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        if (empty($data)) {
-            return [];
-        }
-
-        if ($data[0] instanceOf \stdClass) {
-            $data = json_decode(json_encode($data), true);
-        }
-
-        return array_map(fn(array $transaction) => $this->denormalize($transaction), $data);
+        return $type === AbstractTransaction::class;
     }
 
-    /**
-     * @param \stdClass[] $data
-     * @return AbstractTransaction[]
-     */
-    public function deserializeListForAccount(array $data): array
+    public function getSupportedTypes(?string $format): array
     {
-        if (empty($data)) {
-            return [];
-        }
-
-        if ($data[0] instanceOf \stdClass) {
-            $data = json_decode(json_encode($data), true);
-        }
-
-        return array_map(fn(array $transaction) => $this->denormalize($transaction['tx']), $data);
+        return [
+            AbstractTransaction::class => true,
+        ];
     }
 }

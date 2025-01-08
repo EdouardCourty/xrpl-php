@@ -31,6 +31,5 @@ class Ledger
     public array $transactionIds = [];
 
     /** @var AbstractTransaction[] $transactions */
-    #[Ignore]
     public array $transactions = [];
 }

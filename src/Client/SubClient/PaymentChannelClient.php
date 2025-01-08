@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
 
-use XRPL\Client\JsonRpcClient;
 use XRPL\Model\PaymentChannel\ChannelAuthorize;
 use XRPL\Model\PaymentChannel\ChannelVerify;
-use XRPL\Service\Serializer;
 
-readonly class PaymentChannelClient
+readonly class PaymentChannelClient extends AbstractClient
 {
-    public function __construct(
-        private Serializer $serializer,
-        private JsonRpcClient $jsonRpcClient,
-    ) {
-    }
-
     public function authorizeChannel(
         string $channelId,
         string $amount,

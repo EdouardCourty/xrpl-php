@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace XRPL\Model\Account;
 
-use Symfony\Component\Serializer\Attribute\Ignore;
 use XRPL\Model\AbstractResult;
-use XRPL\Model\AbstractTransaction;
+use XRPL\Model\Account\Nested\AccountTransaction;
 
 class AccountTransactions extends AbstractResult
 {
@@ -16,8 +15,6 @@ class AccountTransactions extends AbstractResult
     public ?int $limit = null;
     public mixed $marker = null;
     public ?bool $validated = null;
-
-    /** @var AbstractTransaction[] $transactions */
-    #[Ignore]
+    /** @var AccountTransaction[] $transactions */
     public array $transactions = [];
 }

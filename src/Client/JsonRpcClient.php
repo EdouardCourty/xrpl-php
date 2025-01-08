@@ -47,13 +47,6 @@ readonly class JsonRpcClient
         return $response->result;
     }
 
-    public function getJson(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT): array
-    {
-        $response = $this->getResult($method, $params, $timeout);
-
-        return json_decode(json_encode($response), true);
-    }
-
     public function execute(JsonRpcRequest $request, int $timeout): RippledResponse
     {
         $response = $this->httpClient->request('POST', '/', [
@@ -71,6 +64,7 @@ readonly class JsonRpcClient
 
         if (isset($content['error'])) {
             $error = $content['error'];
+
             throw new JsonRpcException("RPC Error {$error['code']}: {$error['message']}", $response);
         }
 
