@@ -4,38 +4,24 @@ declare(strict_types=1);
 
 namespace XRPL\Helper;
 
+use StephenHill\Base58;
+
 class CryptographyHelper
 {
     public const string RIPPLE_BASE58_ALPHABET = 'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
 
     public static function encodeBase58(string $string): string
     {
-        $hex = unpack('H*', $string);
-        $hex = reset($hex);
-        $decimal = gmp_init($hex, 16);
+        $base58 = new Base58(self::RIPPLE_BASE58_ALPHABET);
 
-        $output = '';
-        while (gmp_cmp($decimal, 58) >= 0) {
-            list($decimal, $mod) = gmp_div_qr($decimal, 58);
-            $output .= self::RIPPLE_BASE58_ALPHABET[gmp_intval($mod)];
-        }
+        return $base58->encode($string);
+    }
 
-        if (gmp_cmp($decimal, 0) > 0) {
-            $output .= self::RIPPLE_BASE58_ALPHABET[gmp_intval($decimal)];
-        }
+    public static function decodeBase58(string $string): string
+    {
+        $base58 = new Base58(self::RIPPLE_BASE58_ALPHABET);
 
-        $output = strrev($output);
-
-        $bytes = str_split($string);
-        foreach ($bytes as $byte) {
-            if ($byte === "\x00") {
-                $output = self::RIPPLE_BASE58_ALPHABET[0] . $output;
-                continue;
-            }
-            break;
-        }
-
-        return $output;
+        return $base58->decode($string);
     }
 
     /**
@@ -44,5 +30,30 @@ class CryptographyHelper
     public static function doubleSha256(string $data): string
     {
         return hash('sha256', hash('sha256', $data, true), true);
+    }
+
+    public static function byteStringToArray(string $bytes): array
+    {
+        if (\strlen($bytes) === 0) {
+            $bytes = mb_str_pad($bytes, 2, '0', STR_PAD_LEFT);
+        }
+
+        return array_map('hexdec', str_split($bytes, 2));
+    }
+
+    public static function byteArrayToString(array $bytes): string
+    {
+        return implode('', array_map('chr', $bytes));
+    }
+
+    public static function halfSha512(string $string): string
+    {
+        $binaryHash = hash('sha512', $string, true);
+        $hexValue = bin2hex($binaryHash);
+
+        $encoded = self::byteStringToArray($hexValue);
+        $half = \array_slice($encoded, 0, 32);
+
+        return self::byteArrayToString($half);
     }
 }
