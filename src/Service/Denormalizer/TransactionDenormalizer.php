@@ -9,6 +9,9 @@ use XRPL\Enum\TransactionTypeEnum;
 use XRPL\Model\AbstractTransaction;
 use XRPL\Service\Serializer;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class TransactionDenormalizer implements DenormalizerInterface
 {
     public function __construct(private Serializer $serializer)

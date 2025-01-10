@@ -6,6 +6,9 @@ namespace XRPL\Service\Denormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Account\Nested\NFTObject;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 class NFTokenObjectDenormalizer implements DenormalizerInterface
 {
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): NFTObject

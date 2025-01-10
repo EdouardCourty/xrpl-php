@@ -10,6 +10,9 @@ use XRPL\Model\ServerInfo\ServerDefinitions;
 use XRPL\Model\ServerInfo\ServerState;
 use XRPL\Model\ServerInfo\VersionResults;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class ServerInfoClient extends AbstractClient
 {
     public function getFee(): Fee

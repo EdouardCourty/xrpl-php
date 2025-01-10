@@ -53,7 +53,14 @@ class CurrencyAmount
 
     public function getValue(): string
     {
-        return $this->isXRP() ? $this->xrpDrops : $this->value;
+        if ($this->isXRP() === true && $this->xrpDrops === null) {
+            throw new \UnexpectedValueException('XRP drops value is not set');
+        }
+        if ($this->isXRP() === false && $this->value === null) {
+            throw new \UnexpectedValueException('Value is not set');
+        }
+
+        return $this->isXRP() ? (string) $this->xrpDrops : (string) $this->value;
     }
 
     public function getCurrency(): string

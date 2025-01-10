@@ -10,6 +10,9 @@ use XRPL\Model\Transaction\MultiSignedSubmittedTransaction;
 use XRPL\Model\Transaction\SubmittedTransaction;
 use XRPL\Model\Transaction\TransactionEntry;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class TransactionClient extends AbstractClient
 {
     public function submitOnly(

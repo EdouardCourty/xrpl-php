@@ -9,6 +9,9 @@ use XRPL\Enum\LedgerEntryTypeEnum;
 use XRPL\Model\Ledger\LedgerEntry\AbstractLedgerEntry;
 use XRPL\Service\Serializer;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class LedgerEntryDenormalizer implements DenormalizerInterface
 {
     public function __construct(

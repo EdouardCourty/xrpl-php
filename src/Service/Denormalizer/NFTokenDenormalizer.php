@@ -7,6 +7,9 @@ namespace XRPL\Service\Denormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Ledger\LedgerEntry\Nested\NFToken;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 class NFTokenDenormalizer implements DenormalizerInterface
 {
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed

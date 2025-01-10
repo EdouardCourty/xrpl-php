@@ -11,6 +11,9 @@ use XRPL\Model\Ledger\LedgerData;
 use XRPL\Model\Ledger\LedgerEntry;
 use XRPL\Model\Ledger\LedgerResult;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class LedgerClient extends AbstractClient
 {
     /**
@@ -74,7 +77,7 @@ readonly class LedgerClient extends AbstractClient
         mixed $marker = null,
         ?string $type = null,
     ): LedgerData {
-        $type = LedgerEntryEnum::tryFrom($type)?->value;
+        $type = $type === null ? null : LedgerEntryEnum::tryFrom($type)?->value;
 
         $payload = [
             'binary' => $binary,

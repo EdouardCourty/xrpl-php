@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\Exception;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 class NFTNotFoundException extends \Exception
 {
     public static function fromIdentifier(string|int $identifier): self

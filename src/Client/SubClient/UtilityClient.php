@@ -7,6 +7,9 @@ namespace XRPL\Client\SubClient;
 use XRPL\Model\Utility\Ping;
 use XRPL\Model\Utility\Random;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class UtilityClient extends AbstractClient
 {
     public function ping(): Ping

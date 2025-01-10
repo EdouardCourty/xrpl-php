@@ -16,13 +16,16 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use XRPL\Service\Denormalizer\CurrencyAmountDenormalizer;
+use XRPL\Service\Denormalizer\LedgerEntry\NFTokenOfferDenormalizer;
 use XRPL\Service\Denormalizer\LedgerEntryDenormalizer;
 use XRPL\Service\Denormalizer\NFTokenDenormalizer;
 use XRPL\Service\Denormalizer\NFTokenObjectDenormalizer;
 use XRPL\Service\Denormalizer\NFTokenPageDenormalizer;
-use XRPL\Service\Denormalizer\ServerDefinitionsDenormalizer;
 use XRPL\Service\Denormalizer\TransactionDenormalizer;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 class Serializer extends \Symfony\Component\Serializer\Serializer
 {
     public function __construct()
@@ -31,9 +34,9 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
         $reflectionExtractor = new ReflectionExtractor();
 
         $propertyInfoExtractor = new PropertyInfoExtractor(
+            [$phpDocExtractor, $reflectionExtractor], // @phpstan-ignore-line
             [$phpDocExtractor, $reflectionExtractor],
-            [$phpDocExtractor, $reflectionExtractor],
-            [$phpDocExtractor, $reflectionExtractor],
+            [$phpDocExtractor, $reflectionExtractor], // @phpstan-ignore-line
             [$reflectionExtractor],
             [$reflectionExtractor],
         );
@@ -43,9 +46,9 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
             new LedgerEntryDenormalizer($this),
             new NFTokenPageDenormalizer($this),
             new TransactionDenormalizer($this),
-            new ServerDefinitionsDenormalizer(),
             new NFTokenObjectDenormalizer(),
             new NFTokenDenormalizer(),
+            new NFTokenOfferDenormalizer($this),
             new ArrayDenormalizer(),
             new DateTimeNormalizer(),
             new ObjectNormalizer(

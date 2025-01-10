@@ -7,6 +7,9 @@ namespace XRPL\Client\SubClient;
 use XRPL\Model\PaymentChannel\ChannelAuthorize;
 use XRPL\Model\PaymentChannel\ChannelVerify;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class PaymentChannelClient extends AbstractClient
 {
     public function authorizeChannel(

@@ -8,6 +8,9 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Common\CurrencyAmount;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 class CurrencyAmountDenormalizer implements DenormalizerInterface
 {
     public function supportsDenormalization(

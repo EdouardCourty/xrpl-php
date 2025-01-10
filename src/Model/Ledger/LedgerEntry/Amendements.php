@@ -9,6 +9,7 @@ use XRPL\Model\Ledger\LedgerEntry\Nested\Majority;
 
 class Amendements extends AbstractLedgerEntry
 {
+    /** @var string[] $amendements */
     public array $amendements = [];
     /** @var Majority[] $majorities */
     public array $majorities = [];

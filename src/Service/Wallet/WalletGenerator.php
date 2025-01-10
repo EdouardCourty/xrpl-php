@@ -4,20 +4,41 @@ declare(strict_types=1);
 
 namespace XRPL\Service\Wallet;
 
+use XRPL\Exception\InvalidSeedException;
+use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
-final class WalletGenerator
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
+class WalletGenerator
 {
-    public static function generate(): Wallet
+    private const array SUPPORTED_ALGORITHMS = [
+        Wallet::ALGORITHM_ED25519,
+        Wallet::ALGORITHM_SECP256K1,
+    ];
+
+    public static function generate(string $algorithm = Wallet::ALGORITHM_ED25519): Wallet
     {
-        $seed = Seeder::generateSeed();
+        if (false === \in_array($algorithm, self::SUPPORTED_ALGORITHMS, true)) {
+            throw new \UnexpectedValueException('Unsupported algorithm');
+        }
+
+        $seed = Seeder::generateSeed($algorithm);
 
         return self::generateFromSeed($seed);
     }
 
-    public static function generateFromSeed(string $seed): Wallet
+    public static function generateFromSeed(#[\SensitiveParameter] Seed|string $seed): Wallet
     {
-        $seed = Seeder::decodeSeed($seed);
+        if (\is_string($seed)) {
+            $seed = Seeder::generateSeedFromString($seed);
+        }
+
+        if ($seed->isValid() === false) {
+            throw new InvalidSeedException();
+        }
+
         $keyPair = KeyPairGenerator::generateKeyPair($seed);
 
         return new Wallet($seed, $keyPair, AddressService::deriveAddress($keyPair->publicKey));

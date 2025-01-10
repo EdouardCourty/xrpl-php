@@ -4,59 +4,100 @@ declare(strict_types=1);
 
 namespace XRPL\Service\Wallet;
 
-use XRPL\Helper\CryptographyHelper;
+use XRPL\Helper\Cryptography;
 use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
-final class Seeder
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
+class Seeder
 {
     public const array ED25519_SEED_PREFIX = [1, 225, 75];
-    public const array SECP256K1_SEED = [33];
+    public const array SECP256K1_SEED_PREFIX = [33];
 
-    public static function generateSeed(): string
+    private const int ED25519_SEED_LENGTH = 31;
+    private const int SECP256K1_SEED_LENGTH = 29;
+
+    private const int SEED_ENTROPY_SIZE = 16;
+
+    private const string ED25519_SEED_STRING_PREFIX = 'sEd';
+    private const string SECP256K1_SEED_STRING_PREFIX = 's';
+
+    public const array ALGORITHM_SEED_PREFIX_MAPPING = [
+        Wallet::ALGORITHM_ED25519 => self::ED25519_SEED_PREFIX,
+        Wallet::ALGORITHM_SECP256K1 => self::SECP256K1_SEED_PREFIX,
+    ];
+
+    public static function generateSeed(string $algorithm): Seed
     {
-        $entropy = self::generateEntropy();
+        $bytes = bin2hex(random_bytes(self::SEED_ENTROPY_SIZE));
 
-        $seedData = array_merge(self::ED25519_SEED_PREFIX, $entropy);
+        $payload = Cryptography::byteStringToArray($bytes);
 
-        $check = CryptographyHelper::doubleSha256(CryptographyHelper::byteArrayToString($seedData));
-        $checkBytes = CryptographyHelper::byteStringToArray(bin2hex($check));
+        $prefix = self::getSeedPrefix($algorithm);
+        $seedData = array_merge($prefix, $payload);
+
+        $check = Cryptography::doubleSha256(Cryptography::byteArrayToString($seedData));
+        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
 
         $checkSum = \array_slice($checkBytes, 0, 4);
-        $seedBytes = array_merge($seedData, $checkSum);
-
-        $seedString = CryptographyHelper::byteArrayToString($seedBytes);
-        return CryptographyHelper::encodeBase58($seedString);
-    }
-
-    private static function generateEntropy(int $length = 16): array
-    {
-        $bytes = bin2hex(random_bytes($length));
-
-        return CryptographyHelper::byteStringToArray($bytes);
-    }
-
-    public static function decodeSeed(string $seed): Seed
-    {
-        $clearSeed = CryptographyHelper::decodeBase58($seed);
-
-        $byteArray = CryptographyHelper::byteStringToArray(bin2hex($clearSeed));
-        $checkSum = \array_slice($byteArray, -4);
-        $withoutChecksum = \array_slice($byteArray, 0, -4);
-
-        $versionBytesCount = \count(self::ED25519_SEED_PREFIX);
-        $prefix = \array_slice($withoutChecksum, 0, $versionBytesCount);
-        $payload = \array_slice($withoutChecksum, $versionBytesCount);
-
-        if (\count($payload) !== 16) {
-            throw new \Exception('Invalid seed length');
-        }
 
         return new Seed(
-            Wallet::ALGORITHM_ED25519,
+            $algorithm,
             $prefix,
             $payload,
             $checkSum,
         );
+    }
+
+    public static function generateSeedFromString(#[\SensitiveParameter] string $seed): Seed
+    {
+        $algorithm = self::guessAlgorithm($seed);
+
+        $clearSeed = Cryptography::decodeBase58($seed);
+
+        $byteArray = Cryptography::byteStringToArray(bin2hex($clearSeed));
+        $checkSum = \array_slice($byteArray, -4);
+        $withoutChecksum = \array_slice($byteArray, 0, -4);
+
+        $seedPrefix = self::getSeedPrefix($algorithm);
+
+        $versionBytesCount = \count($seedPrefix);
+        $prefix = \array_slice($withoutChecksum, 0, $versionBytesCount);
+        $payload = \array_slice($withoutChecksum, $versionBytesCount);
+
+        if (\count($payload) !== self::SEED_ENTROPY_SIZE) {
+            throw new \Exception('Invalid seed length');
+        }
+
+        return new Seed(
+            $algorithm,
+            $prefix,
+            $payload,
+            $checkSum,
+        );
+    }
+
+    private static function getSeedPrefix(string $algorithm): array
+    {
+        if (!isset(self::ALGORITHM_SEED_PREFIX_MAPPING[$algorithm])) {
+            throw new \UnexpectedValueException('Unsupported algorithm');
+        }
+
+        return self::ALGORITHM_SEED_PREFIX_MAPPING[$algorithm];
+    }
+
+    private static function guessAlgorithm(#[\SensitiveParameter] string $seed): string
+    {
+        if (str_starts_with($seed, self::ED25519_SEED_STRING_PREFIX) && \strlen($seed) === self::ED25519_SEED_LENGTH) {
+            return Wallet::ALGORITHM_ED25519;
+        }
+
+        if (str_starts_with($seed, self::SECP256K1_SEED_STRING_PREFIX) && \strlen($seed) === self::SECP256K1_SEED_LENGTH) {
+            return Wallet::ALGORITHM_SECP256K1;
+        }
+
+        throw new \UnexpectedValueException('Unsupported algorithm');
     }
 }

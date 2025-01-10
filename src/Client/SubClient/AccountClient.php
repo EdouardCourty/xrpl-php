@@ -16,6 +16,9 @@ use XRPL\Model\Account\AccountTransactions;
 use XRPL\Model\Account\GatewayBalances;
 use XRPL\Model\Account\NoRippleCheck;
 
+/**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ */
 readonly class AccountClient extends AbstractClient
 {
     public function getAccountChannels(
