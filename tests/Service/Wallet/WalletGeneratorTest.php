@@ -10,6 +10,8 @@ use XRPL\Service\Wallet\WalletGenerator;
 use XRPL\ValueObject\Wallet;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Service\Wallet\WalletGenerator
  */
 class WalletGeneratorTest extends TestCase

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Utils;
+namespace XRPL\Tests\Utils;
 
 use PHPUnit\Framework\TestCase;
 use XRPL\Utils\JsonRpcRequest;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass  \XRPL\Utils\JsonRpcRequest
  */
 class JsonRpcRequestTest extends TestCase

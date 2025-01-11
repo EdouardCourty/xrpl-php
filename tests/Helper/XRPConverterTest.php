@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Helper\XRPConverter;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Helper\XRPConverter
  */
 class XRPConverterTest extends TestCase

@@ -13,6 +13,8 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Service\Wallet\KeyPairGenerator
  */
 class KeyPairGeneratorTest extends TestCase

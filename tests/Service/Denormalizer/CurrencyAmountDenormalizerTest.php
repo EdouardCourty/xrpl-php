@@ -9,6 +9,8 @@ use XRPL\Model\Common\CurrencyAmount;
 use XRPL\Service\Denormalizer\CurrencyAmountDenormalizer;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Service\Denormalizer\CurrencyAmountDenormalizer
  */
 class CurrencyAmountDenormalizerTest extends TestCase

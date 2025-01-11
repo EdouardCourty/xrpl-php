@@ -11,6 +11,8 @@ use XRPL\ValueObject\KeyPair;
 use XRPL\ValueObject\Wallet;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\ValueObject\KeyPair
  */
 class KeyPairTest extends TestCase

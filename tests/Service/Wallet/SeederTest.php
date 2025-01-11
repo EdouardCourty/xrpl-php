@@ -10,6 +10,8 @@ use XRPL\Service\Wallet\Seeder;
 use XRPL\ValueObject\Wallet;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Service\Wallet\Seeder
  */
 class SeederTest extends TestCase

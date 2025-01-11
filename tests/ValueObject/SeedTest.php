@@ -11,6 +11,8 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\ValueObject\Seed
  */
 class SeedTest extends TestCase

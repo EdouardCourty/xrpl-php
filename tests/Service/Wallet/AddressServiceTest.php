@@ -8,9 +8,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use XRPL\Service\Wallet\AddressService;
 use XRPL\Service\Wallet\WalletGenerator;
-use XRPL\ValueObjet\Seed;
 
 /**
+ * @author Edouard Courty <edouard.courty2@gmail.com>
+ *
  * @coversDefaultClass \XRPL\Service\Wallet\AddressService
  */
 class AddressServiceTest extends TestCase
