@@ -113,7 +113,11 @@ You can add funds to a TestNet / DevNet wallet using either the `Wallet` class o
     ```php
     <?php
     
-    $lastLedger = $client->ledger->getLedger(transactions: true, expand: true);
+    $lastLedger = $client->ledger->getLedger(
+        ledgerIndex: 93392983,
+        transactions: true,
+        expand: true
+    );
     
     foreach ($lastLedger->ledger->transactions as $transaction) {
         $txHash = $transaction->hash;
