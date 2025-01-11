@@ -96,7 +96,6 @@ You can add funds to a TestNet / DevNet wallet using either the `Wallet` class o
     
     $client = new XRPLClient('https://s1.ripple.com:51234');
     
-    $address = 'r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59';
     $accountLines = $client->account->getAccountLines('r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59');
     
     foreach ($accountLines->lines as $line) {
