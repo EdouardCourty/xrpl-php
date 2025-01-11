@@ -51,6 +51,11 @@ class CurrencyAmount
         return $this->issuer !== null;
     }
 
+    public function __toString(): string
+    {
+        return $this->getValue();
+    }
+
     public function getValue(): string
     {
         if ($this->isXRP() === true && $this->xrpDrops === null) {
