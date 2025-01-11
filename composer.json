@@ -13,11 +13,10 @@
     "require": {
         "php": ">=8.3",
         "ext-bcmath": "*",
-        "ext-sodium": "*",
         "ext-gmp": "*",
-        "symfony/http-client": "^7.2",
-        "symfony/property-access": "^7.2",
-        "symfony/serializer": "^7.2",
+        "symfony/http-client": "^7.2|^6.4",
+        "symfony/property-access": "^7.2|^6.4",
+        "symfony/serializer": "^7.2|^6.4",
         "phpdocumentor/reflection-docblock": "^5.6",
         "simplito/elliptic-php": "^1.0",
         "stephenhill/base58": "^1.1"
@@ -45,5 +44,6 @@
             "homepage": "https://github.com/EdouardCourty",
             "role": "Author"
         }
-    ]
+    ],
+    "readme": "README.md"
 }
