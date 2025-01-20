@@ -26,7 +26,7 @@ class AddressService
         $hexValue = bin2hex($hash160);
 
         $byteArray = Cryptography::byteStringToArray($hexValue);
-        $sliced = \array_slice($byteArray, 0, 32); // Not sure this is useful, since byteArray is (always) 20 long
+        $sliced = \array_slice($byteArray, 0, 32);
 
         $addressBytes = array_merge([self::ADDRESS_PREFIX_ADDRESS], $sliced);
 

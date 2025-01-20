@@ -40,7 +40,7 @@ class WalletGeneratorTest extends TestCase
         $this->assertNotEmpty($wallet->keyPair->privateKey);
 
         $this->assertNotEmpty($wallet->seed->toString());
-        $this->assertNotEmpty($wallet->address);
+        $this->assertNotEmpty($wallet->getAddress());
 
         $this->assertEquals($algorithm, $wallet->seed->algorithm);
     }

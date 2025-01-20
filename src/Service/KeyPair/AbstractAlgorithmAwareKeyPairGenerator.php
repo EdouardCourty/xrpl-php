@@ -22,4 +22,6 @@ abstract class AbstractAlgorithmAwareKeyPairGenerator
     ];
 
     public abstract function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPair;
+
+    public abstract function sign(string $message, string $privateKey): string;
 }

@@ -76,4 +76,16 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
             $seqBN = $seqBN->add(1);
         }
     }
+
+    public function sign(string $message, string $privateKey): string
+    {
+        $hash = Cryptography::halfSha512($message);
+
+        return $this->elliptic->sign(
+            $hash,
+            $privateKey,
+            'hex',
+            ['canonical' => true],
+        )->toDER('hex');
+    }
 }

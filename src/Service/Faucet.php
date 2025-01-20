@@ -18,7 +18,7 @@ class Faucet
      */
     public static function addFunds(Wallet|string $walletOrAddress, Network $network = Network::TESTNET): void
     {
-        $address = \is_string($walletOrAddress) ? $walletOrAddress : $walletOrAddress->address;
+        $address = \is_string($walletOrAddress) ? $walletOrAddress : $walletOrAddress->getAddress();
 
         $httpClient = HttpClient::createForBaseUri($network->getFaucetUrl());
         $response = $httpClient->request('POST', '/accounts', [

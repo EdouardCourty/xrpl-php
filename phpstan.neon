@@ -4,3 +4,4 @@ parameters:
 		- src
 	ignoreErrors:
 	    - identifier: missingType.iterableValue
+	    - identifier: new.static

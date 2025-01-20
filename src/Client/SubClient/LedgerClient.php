@@ -36,6 +36,10 @@ readonly class LedgerClient extends AbstractClient
             'ledger_index' => $ledgerIndex,
         ];
 
+        if ($payload['ledger_index'] === null && $payload['ledger_hash'] === null) {
+            $payload['ledger_index'] = 'validated';
+        }
+
         $response = $this->jsonRpcClient->getResult('ledger', $payload);
 
         /** @var LedgerResult $ledgerResult */

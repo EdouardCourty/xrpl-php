@@ -14,7 +14,7 @@ class ServerDefinitions
 
     /**
      * @var array{
-     *      FIELDS: array<array{string, array{isSigningField: bool}}>,
+     *      FIELDS: array<array{string, array{isSerialized: bool, isSigningField: bool, isVLEncoded: bool, nth: int, type: string}}>,
      *      LEDGER_ENTRY_TYPES: array<string, int>,
      *      TRANSACTION_RESULTS: array<string, int>,
      *      TRANSACTION_TYPES: array<string, int>,
@@ -39,7 +39,7 @@ class ServerDefinitions
             throw new \LogicException('Unable to read definitions file');
         }
 
-        return $this->rawData = json_decode($fileContent, true);
+        $this->rawData = json_decode($fileContent, true);
     }
 
     public function getFieldDefinition(string $name): TransactionFieldDefinition
@@ -74,5 +74,14 @@ class ServerDefinitions
     private function getTypeCode(string $type): int
     {
         return (int) $this->rawData['TYPES'][$type];
+    }
+
+    public function getTransactionType(string $transactionTypeString): int
+    {
+        if (false === isset($this->rawData['TRANSACTION_TYPES'][$transactionTypeString])) {
+            throw new \InvalidArgumentException('Invalid transaction type');
+        }
+
+        return (int) $this->rawData['TRANSACTION_TYPES'][$transactionTypeString];
     }
 }

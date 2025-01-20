@@ -34,16 +34,11 @@ readonly class JsonRpcClient
     public function request(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT): RippledResponse
     {
         $request = new JsonRpcRequest(UuidGenerator::v4(), $method, $params);
-        $response = null;
 
-        try {
-            return $this->execute($request, $timeout);
-        } catch (\Throwable $e) {
-            throw new JsonRpcException("Request failed: " . $e->getMessage(), $response, $e);
-        }
+        return $this->execute($request, $timeout);
     }
 
-    public function getResult(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT): mixed
+    public function getResult(string $method, array $params = [], int $timeout = self::DEFAULT_TIMEOUT): array
     {
         $response = $this->request($method, $params, $timeout);
 
@@ -63,20 +58,19 @@ readonly class JsonRpcClient
             throw new JsonRpcException("HTTP error: {$statusCode}", $response);
         }
 
-        $content = $response->toArray(false);
-
-        if (isset($content['error'])) {
-            $error = $content['error'];
-
-            throw new JsonRpcException("RPC Error {$error['code']}: {$error['message']}", $response);
-        }
-
         /** @var RippledResponse $rippledResponse */
         $rippledResponse = $this->serializer->deserialize(
             $response->getContent(),
             RippledResponse::class,
             'json',
         );
+
+        $result = $rippledResponse->result;
+        $status = $result['status'] ?? null;
+
+        if ($status === 'error') {
+            throw new JsonRpcException("Rippled error: {$result['error_message']}", $response);
+        }
 
         return $rippledResponse;
     }
