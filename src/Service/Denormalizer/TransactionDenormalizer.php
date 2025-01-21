@@ -10,7 +10,7 @@ use XRPL\Model\AbstractTransaction;
 use XRPL\Service\Serializer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class TransactionDenormalizer implements DenormalizerInterface
 {

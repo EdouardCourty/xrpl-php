@@ -12,7 +12,7 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class KeyPairGenerator
 {

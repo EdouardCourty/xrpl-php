@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\Utils;
 
+/**
+ * @author Edouard Courty
+ */
 class SignaturePrefix
 {
     public const int TRANSACTION = 0x54584e00; // TXN

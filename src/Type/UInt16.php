@@ -6,6 +6,8 @@ namespace XRPL\Type;
 
 /**
  * UInt16 => 16-bit unsigned integer, 0..65535, big-endian
+ *
+ * @author Edouard Courty
  */
 class UInt16 extends AbstractUintN
 {

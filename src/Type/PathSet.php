@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\Type;
 
+/**
+ * @author Edouard Courty
+ */
 class PathSet extends AbstractBinaryType
 {
     private const int FLAG_ACCOUNT = 0x01;

@@ -11,6 +11,8 @@ use XRPL\Type\STIssue;
 use XRPL\Type\XChainBridge;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\XChainBridge
  */
 class XChainBridgeTest extends TestCase

@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\PathSet;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\PathSet
  */
 class PathSetTest extends TestCase

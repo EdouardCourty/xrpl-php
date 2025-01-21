@@ -6,6 +6,9 @@ namespace XRPL\Type;
 
 use XRPL\Service\Signature\ServerDefinitions;
 
+/**
+ * @author Edouard Courty
+ */
 class TransactionType extends UInt16
 {
     public static function fromString(string $value): static

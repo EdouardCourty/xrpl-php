@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\Amount;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\Amount
  */
 class AmountTest extends TestCase

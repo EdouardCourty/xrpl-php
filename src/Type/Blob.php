@@ -9,6 +9,8 @@ use XRPL\Service\TransactionEncoder;
 /**
  * A Blob is a variable-length, length-prefixed field that can contain arbitrary binary data.
  * Examples include SigningPubKey and TxnSignature fields in XRPL transactions.
+ *
+ * @author Edouard Courty
  */
 class Blob extends AbstractBinaryType
 {
@@ -144,6 +146,10 @@ class Blob extends AbstractBinaryType
 
     public static function fromJson(mixed $data): static
     {
+        if (empty($data)) {
+            return new static([]);
+        }
+
         if (\is_string($data) === false) {
             throw new \InvalidArgumentException('Blob must be a string');
         }

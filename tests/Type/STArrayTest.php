@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\STArray;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\STArray
  */
 class STArrayTest extends TestCase

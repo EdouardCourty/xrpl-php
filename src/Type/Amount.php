@@ -6,6 +6,9 @@ namespace XRPL\Type;
 
 use InvalidArgumentException;
 
+/**
+ * @author Edouard Courty
+ */
 class Amount extends AbstractBinaryType
 {
     private const string CURRENCY_XRP = 'XRP';
@@ -40,7 +43,7 @@ class Amount extends AbstractBinaryType
 
         // Convert to zero-padded 16-hex-character string (8 bytes)
         $hex = gmp_strval($value, 16);
-        $hex = str_pad($hex, 16, '0', STR_PAD_LEFT);
+        $hex = str_pad($hex, 16, '0', \STR_PAD_LEFT);
 
         $binary = pack('H*', $hex);  // 8 bytes
 
@@ -208,7 +211,7 @@ class Amount extends AbstractBinaryType
         // -------------------------------------------------------------------------
         // Turn $combined into a 16-hex-digit string (64 bits => 8 bytes)
         $hex = gmp_strval($combined, 16);
-        $hex = str_pad($hex, 16, '0', STR_PAD_LEFT);
+        $hex = str_pad($hex, 16, '0', \STR_PAD_LEFT);
 
         // Pack into a binary string, then unpack to array of bytes
         $binary = pack('H*', $hex);

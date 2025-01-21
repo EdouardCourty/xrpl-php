@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\Blob;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\Blob
  */
 class BlobTest extends TestCase

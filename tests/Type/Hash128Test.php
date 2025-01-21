@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\Hash128;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\Hash128
  */
 class Hash128Test extends TestCase

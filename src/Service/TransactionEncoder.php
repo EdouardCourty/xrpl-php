@@ -4,31 +4,57 @@ declare(strict_types=1);
 
 namespace XRPL\Service;
 
-use XRPL\Client\XRPLClient;
 use XRPL\Service\Signature\ServerDefinitions;
 use XRPL\Service\Wallet\KeyPairGenerator;
 use XRPL\Type\AbstractBinaryType;
+use XRPL\Type\AccountID;
 use XRPL\Type\Blob;
 use XRPL\Type\STObject;
 use XRPL\Type\TransactionType;
 use XRPL\Utils\SignaturePrefix;
 use XRPL\ValueObject\Wallet;
 
+/**
+ * @author Edouard Courty
+ */
 class TransactionEncoder
 {
-//    public static function encodeForMultiSign(array $transactionData, string $signingAddress): string
-//    {
-//        if (false === empty($transactionData['SigningPubKey'])) {
-//            throw new \LogicException('Trying to multi-sign a transaction with a SigningPukKey is illegal.');
-//        }
-//
-//        $fields = self::getSigningFields($transactionData);
-//        $transactionPrefix = dechex(SignaturePrefix::TRANSACTION_MULTISIGN);
-//
-//        $transactionSuffix = $signingAddress;
-//
-//        // TODO: Finish
-//    }
+    public static function encodeForMultiSign(array $transactionData, Wallet $wallet): string
+    {
+        if (isset($transactionData['SigningPubKey']) === true) {
+            throw new \LogicException('Cannot multi-sign a transaction containing a SigningPukKey.');
+        }
+
+        if (isset($transactionData['Signers']) === true) {
+            throw new \LogicException('Cannot multi-sign a transaction containing a Signers entry.');
+        }
+
+        $fields = self::getSigningFields($transactionData);
+        $fields['SigningPubKey'] = '';
+
+        $signerData = [
+            'Account' => $wallet->getAddress(),
+            'SigningPubKey' => $wallet->getPublicKey(),
+            'TxnSignature' => self::computeSignature(
+                $fields,
+                $wallet,
+                $wallet->getAddress(),
+            ),
+        ];
+        $fields['Signers'] = [['Signer' => $signerData]];
+
+        $serialized = self::serializeFields($fields);
+        $sorted = self::sortFields($serialized);
+
+        $transactionArray = [];
+
+        foreach ($sorted as $value) {
+            $transactionArray = array_merge($transactionArray, $value);
+        }
+
+        $blob = new Blob($transactionArray);
+        return $blob->toSerialized(); // Transform the byte array into a uppercase hexadecimal string
+    }
 
     /**
      * @param array<string, AbstractBinaryType> $transactionData
@@ -191,9 +217,17 @@ class TransactionEncoder
         ));
     }
 
-    private static function computeSignature(array $transactionData, #[\SensitiveParameter] Wallet $wallet): string
-    {
-        $prefix = dechex(SignaturePrefix::TRANSACTION_SIGN);
+    private static function computeSignature(
+        array $transactionData,
+        #[\SensitiveParameter] Wallet $wallet,
+        ?string $multiSignAddress = null,
+    ): string {
+        $prefix = dechex($multiSignAddress === null ? SignaturePrefix::TRANSACTION_SIGN : SignaturePrefix::TRANSACTION_MULTISIGN);
+
+        $suffix = '';
+        if ($multiSignAddress !== null) {
+            $suffix = AccountId::fromJson($multiSignAddress)->toSerialized();
+        }
 
         $serialized = self::serializeFields($transactionData);
         $sorted = self::sortFields($serialized);
@@ -205,7 +239,7 @@ class TransactionEncoder
         }
 
         $blob = new Blob($transactionArray);
-        $payload = $prefix . strtoupper($blob->toHex());
+        $payload = $prefix . strtoupper($blob->toHex()) . $suffix;
 
         $keyPairService = KeyPairGenerator::getKeypairGenerator($wallet->seed->algorithm);
 

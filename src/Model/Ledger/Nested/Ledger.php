@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 use XRPL\Model\AbstractTransaction;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Ledger
 {

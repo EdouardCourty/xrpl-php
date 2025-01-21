@@ -4,39 +4,46 @@ declare(strict_types=1);
 
 namespace XRPL\Tests\Type;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use XRPL\Type\Hash256;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\Hash256
  */
 class Hash256Test extends TestCase
 {
     /**
-     * @covers ::__construct
+     * @covers ::fromJson
      */
-    #[DataProvider('provideInvalidValues')]
-    public function testItCannotBeInstantiatedWithInvalidValue(string $value): void
+    public function testWithInputTooLong(): void
     {
+        $hash = 'FE23AF2E3AF2D45AFE23AF2E3AF2D45AFE23AF2E3AF2D45AD45AD45AD45AD45AD45AD45A'; // 72 Length
         $this->expectException(\InvalidArgumentException::class);
 
-        new Hash256($value);
+        Hash256::fromJson($hash);
     }
 
     /**
-     * @covers ::__construct
+     * @covers ::fromJson
      */
-    public function testItWorks(): void
+    public function testWithInputTooShort(): void
     {
-        $hash = new Hash256('3070B36F83D424B768DFA77642741766BF5831B3C6A1793A3F45DA68C492068A');
+        $hash = 'FE23AF2E3AF2D45A'; // 16 Length
+        $this->expectException(\InvalidArgumentException::class);
 
-        $this->assertEquals(32, $hash->getLength());
+        Hash256::fromJson($hash);
     }
 
-    public static function provideInvalidValues(): iterable
+    /**
+     * @covers ::fromJson
+     */
+    public function testWithValueCorrectLength(): void
     {
-        yield ['String too short'];
-        yield ['String toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo long'];
+        $hash = 'FE23AF2E3AF2D45AFE23AF2E3AF2D45AD45AD45AD45AD45AD45AD45AD45AD45A'; // 64 Length
+        $hashObject = Hash256::fromJson($hash);
+
+        $this->assertEquals($hashObject->toSerialized(), $hash);
     }
 }

@@ -10,7 +10,7 @@ use XRPL\Service\TransactionEncoder;
 use XRPL\Service\Wallet\WalletGenerator;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class Wallet
 {
@@ -67,6 +67,11 @@ readonly class Wallet
     public function sign(array $transactionData): string
     {
         return TransactionEncoder::encodeForSingleSign($transactionData, $this);
+    }
+
+    public function multiSign(array $transactionData): string
+    {
+        return TransactionEncoder::encodeForMultiSign($transactionData, $this);
     }
 
     public function getAddress(): string

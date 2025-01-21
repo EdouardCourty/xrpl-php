@@ -10,6 +10,8 @@ use XRPL\Type\Currency;
 use XRPL\Type\STIssue;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\STIssue
  */
 class STIssueTest extends TestCase

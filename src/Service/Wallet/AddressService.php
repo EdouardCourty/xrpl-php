@@ -7,7 +7,7 @@ namespace XRPL\Service\Wallet;
 use XRPL\Helper\Cryptography;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class AddressService
 {

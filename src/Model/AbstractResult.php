@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace XRPL\Model;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 abstract class AbstractResult
 {

@@ -9,7 +9,7 @@ use XRPL\Model\Ledger\Nested\Ledger;
 use XRPL\Model\Ledger\Nested\QueueData;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class LedgerResult extends AbstractResult
 {

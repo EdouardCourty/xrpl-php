@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\Type;
 
-use XRPL\Service\Signature\ServerDefinitions;
-
+/**
+ * @author Edouard Courty
+ */
 class STArray extends AbstractBinaryType
 {
     public const int ST_OBJECT_END_MARKER_VALUE = 0xf1;

@@ -6,6 +6,8 @@ namespace XRPL\Type;
 
 /**
  * UInt32 => 32-bit unsigned integer, 0..4294967295, big-endian
+ *
+ * @author Edouard Courty
  */
 class UInt32 extends AbstractUintN
 {

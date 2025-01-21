@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\Type;
 
+/**
+ * @author Edouard Courty
+ */
 class XChainBridge extends AbstractBinaryType
 {
     public function __construct(

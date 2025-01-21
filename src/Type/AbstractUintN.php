@@ -9,6 +9,8 @@ namespace XRPL\Type;
  *  - Stores an unsigned integer in big-endian format.
  *  - Concrete subclasses define the pack/unpack format (e.g. 'C', 'n', 'N').
  *  - Optionally, each subclass can enforce numeric range constraints.
+ *
+ * @author Edouard Courty
  */
 abstract class AbstractUintN extends AbstractBinaryType
 {
@@ -50,14 +52,6 @@ abstract class AbstractUintN extends AbstractBinaryType
         }
 
         return reset($unpacked);
-    }
-
-    /**
-     * Return the raw bytes as a binary string for serialization.
-     */
-    public function toSerialized(): string
-    {
-        return pack('C*', ...$this->getBytes());
     }
 
     public static function fromJson(mixed $data): static

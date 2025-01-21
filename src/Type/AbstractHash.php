@@ -6,6 +6,8 @@ namespace XRPL\Type;
 
 /**
  * Abstract parent class for all Hash types (Hash128, Hash160, Hash192, Hash256).
+ *
+ * @author Edouard Courty
  */
 abstract class AbstractHash extends AbstractBinaryType
 {

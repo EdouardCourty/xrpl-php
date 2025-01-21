@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Common\CurrencyAmount;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class CurrencyAmountDenormalizer implements DenormalizerInterface
 {

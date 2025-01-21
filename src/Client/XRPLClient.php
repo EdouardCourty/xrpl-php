@@ -15,7 +15,7 @@ use XRPL\Service\Serializer;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class XRPLClient
 {

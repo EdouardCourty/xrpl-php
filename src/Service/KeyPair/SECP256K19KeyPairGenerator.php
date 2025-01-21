@@ -12,7 +12,7 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 {
@@ -63,7 +63,7 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
                 $seedArray = array_merge($seedArray, Cryptography::byteStringToArray('00000000'));
             }
 
-            $seqHex = str_pad($seqBN->toString('hex'), 8, '00', STR_PAD_LEFT);
+            $seqHex = str_pad($seqBN->toString('hex'), 8, '00', \STR_PAD_LEFT);
             $seedArray = array_merge($seedArray, Cryptography::byteStringToArray($seqHex));
 
             $hash = bin2hex(Cryptography::halfSha512(Cryptography::byteArrayToString($seedArray)));

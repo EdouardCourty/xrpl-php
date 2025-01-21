@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Service\Signature\ServerDefinitions;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Service\Signature\ServerDefinitions
  */
 class ServerDefinitionsTest extends TestCase

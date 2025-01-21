@@ -13,7 +13,7 @@ use XRPL\Model\PathOrderBook\NFTBuyOffers;
 use XRPL\Model\PathOrderBook\NFTSellOffers;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class PathOrderBookClient extends AbstractClient
 {

@@ -12,7 +12,7 @@ use XRPL\Model\Ledger\LedgerEntry;
 use XRPL\Model\Ledger\LedgerResult;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class LedgerClient extends AbstractClient
 {

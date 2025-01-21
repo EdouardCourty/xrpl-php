@@ -6,6 +6,8 @@ namespace XRPL\Type;
 
 /**
  * UInt8 => 8-bit unsigned integer, 0..255
+ *
+ * @author Edouard Courty
  */
 class UInt8 extends AbstractUintN
 {

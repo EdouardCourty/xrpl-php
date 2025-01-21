@@ -13,7 +13,7 @@ use XRPL\Utils\JsonRpcRequest;
 use XRPL\Utils\UuidGenerator;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class JsonRpcClient
 {

@@ -8,7 +8,7 @@ use XRPL\Service\Wallet\KeyPairGenerator;
 use XRPL\Service\Wallet\Seeder;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class KeyPair
 {

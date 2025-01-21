@@ -6,6 +6,9 @@ namespace XRPL\Type;
 
 use XRPL\Service\TransactionEncoder;
 
+/**
+ * @author Edouard Courty
+ */
 class STObject extends AbstractBinaryType
 {
     public const string ST_OBJECT_END_MARKER = 'ObjectEndMarker';

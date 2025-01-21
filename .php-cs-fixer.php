@@ -10,6 +10,7 @@ return $config
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setFinder($finder)
     ->setUsingCache(false)
+    ->setRiskyAllowed(true)
     ->setRules([
         'simplified_null_return' => false,
         'concat_space' => ['spacing' => 'one'],
@@ -25,4 +26,5 @@ return $config
         'single_line_throw' => false,
         'visibility_required' => false,
         'native_function_invocation' => true,
+        'native_constant_invocation' => true,
     ]);

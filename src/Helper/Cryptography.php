@@ -7,7 +7,7 @@ namespace XRPL\Helper;
 use StephenHill\Base58;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Cryptography
 {
@@ -38,7 +38,7 @@ class Cryptography
     public static function byteStringToArray(string $bytes): array
     {
         if (\strlen($bytes) === 0) {
-            $bytes = mb_str_pad($bytes, 2, '0', STR_PAD_LEFT);
+            $bytes = mb_str_pad($bytes, 2, '0', \STR_PAD_LEFT);
         }
 
         return array_map('hexdec', str_split($bytes, 2));

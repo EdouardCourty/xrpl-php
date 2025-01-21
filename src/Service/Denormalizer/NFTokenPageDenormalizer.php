@@ -9,7 +9,7 @@ use XRPL\Model\Ledger\LedgerEntry\NFTokenPage;
 use XRPL\Service\Serializer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class NFTokenPageDenormalizer implements DenormalizerInterface
 {

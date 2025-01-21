@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Type\TransactionType;
 
 /**
+ * @author Edouard Courty
+ *
  * @coversDefaultClass \XRPL\Type\TransactionType
  */
 class TransactionTypeTest extends TestCase
@@ -29,6 +31,6 @@ class TransactionTypeTest extends TestCase
     {
         $transactionType = TransactionType::fromString('AccountSet');
 
-        $this->assertEquals(hex2bin('0003'), $transactionType->toSerialized());
+        $this->assertEquals('0003', $transactionType->toSerialized());
     }
 }

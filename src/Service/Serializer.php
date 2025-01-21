@@ -24,7 +24,7 @@ use XRPL\Service\Denormalizer\NFTokenPageDenormalizer;
 use XRPL\Service\Denormalizer\TransactionDenormalizer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Serializer extends \Symfony\Component\Serializer\Serializer
 {

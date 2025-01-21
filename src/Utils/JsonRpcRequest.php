@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace XRPL\Utils;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class JsonRpcRequest
 {

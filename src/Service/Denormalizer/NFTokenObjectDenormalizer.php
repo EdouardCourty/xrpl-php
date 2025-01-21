@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Account\Nested\NFTObject;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class NFTokenObjectDenormalizer implements DenormalizerInterface
 {

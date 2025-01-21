@@ -6,6 +6,9 @@ namespace XRPL\Type;
 
 use XRPL\Helper\Cryptography;
 
+/**
+ * @author Edouard Courty
+ */
 class AccountID extends AbstractBinaryType
 {
     public function __construct(string $value)

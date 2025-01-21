@@ -6,6 +6,9 @@ namespace XRPL\Service\Signature;
 
 use XRPL\ValueObject\TransactionFieldDefinition;
 
+/**
+ * @author Edouard Courty
+ */
 class ServerDefinitions
 {
     private const string FILE_PATH = __DIR__ . '/../../../data/XRPL_Definitions.json';

@@ -7,7 +7,7 @@ namespace XRPL\ValueObject;
 use XRPL\Helper\Cryptography;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class Seed
 {
