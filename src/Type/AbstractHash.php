@@ -21,7 +21,7 @@ abstract class AbstractHash extends AbstractBinaryType
         $cleanHex = preg_replace('/[^0-9A-Fa-f]/', '', $hexString) ?? '';
 
         // Must have exactly 2 hex chars per byte
-        $cleanHexLength = \strlen($cleanHex);
+        $cleanHexLength = mb_strlen($cleanHex);
         if ($cleanHexLength !== 2 * static::getExpectedLength()) {
             throw new \InvalidArgumentException(\sprintf(
                 'Hex string must be %d hex chars for a %d-byte hash, got %d chars.',
@@ -56,11 +56,11 @@ abstract class AbstractHash extends AbstractBinaryType
 
     public static function fromBinary(string $binary): static
     {
-        if (\strlen($binary) !== static::getExpectedLength()) {
+        if (mb_strlen($binary) !== static::getExpectedLength()) {
             throw new \InvalidArgumentException(\sprintf(
                 'Raw binary must be %d bytes, got %d.',
                 static::getExpectedLength(),
-                \strlen($binary),
+                mb_strlen($binary),
             ));
         }
 
@@ -94,5 +94,5 @@ abstract class AbstractHash extends AbstractBinaryType
         return new static($data);
     }
 
-    public abstract static function getExpectedLength(): int;
+    abstract public static function getExpectedLength(): int;
 }

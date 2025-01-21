@@ -11,7 +11,7 @@ class Currency extends AbstractBinaryType
 {
     public function __construct(string $symbol)
     {
-        if (\strlen($symbol) !== 3) {
+        if (mb_strlen($symbol) !== 3) {
             throw new \InvalidArgumentException('Currency symbol must be exactly 3 characters');
         }
 

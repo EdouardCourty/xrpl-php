@@ -30,7 +30,7 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
         $privateKey = $this->derivePrivateKey($payload, $validator, $index);
         $publicKey = $this->elliptic->g->mul(new BN($privateKey, 16))->encodeCompressed('hex');
 
-        return new KeyPair(parent::PREFIX_SECP256K1 . strtoupper($privateKey), strtoupper($publicKey));
+        return new KeyPair(parent::PREFIX_SECP256K1 . mb_strtoupper($privateKey), mb_strtoupper($publicKey));
     }
 
     private function derivePrivateKey(array $seedPayload, bool $validator, int $index): string
@@ -63,13 +63,13 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
                 $seedArray = array_merge($seedArray, Cryptography::byteStringToArray('00000000'));
             }
 
-            $seqHex = str_pad($seqBN->toString('hex'), 8, '00', \STR_PAD_LEFT);
+            $seqHex = mb_str_pad($seqBN->toString('hex'), 8, '00', \STR_PAD_LEFT);
             $seedArray = array_merge($seedArray, Cryptography::byteStringToArray($seqHex));
 
             $hash = bin2hex(Cryptography::halfSha512(Cryptography::byteArrayToString($seedArray)));
             $hashBN = new BN($hash, 16);
 
-            if($hashBN->cmp($zeroBN) != 0 && $hashBN->cmp($this->elliptic->n) < 0) {
+            if ($hashBN->cmp($zeroBN) != 0 && $hashBN->cmp($this->elliptic->n) < 0) {
                 return $hashBN;
             }
 

@@ -15,6 +15,9 @@ use XRPL\Service\Signature\ServerDefinitions;
  */
 class TransactionFieldDefinitionTest extends TestCase
 {
+    /**
+     * @covers ::getFieldId
+     */
     #[DataProvider('provideFieldIdTestData')]
     public function testFieldId(
         string $fieldName,

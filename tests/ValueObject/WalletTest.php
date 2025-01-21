@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace XRPL\Tests\ValueObject;
@@ -27,5 +28,18 @@ class WalletTest extends TestCase
         $wallet2 = WalletGenerator::generateFromSeed($seed);
 
         $this->assertEquals($wallet, $wallet2);
+    }
+
+    /**
+     * Ensure two randomly generated wallets are different.
+     *
+     * @covers ::generate
+     */
+    public function testGenerateRandom(): void
+    {
+        $wallet = Wallet::generate();
+        $wallet2 = WalletGenerator::generate();
+
+        $this->assertNotEquals($wallet, $wallet2);
     }
 }

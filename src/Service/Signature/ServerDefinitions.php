@@ -35,7 +35,8 @@ class ServerDefinitions
         return self::$instance;
     }
 
-    private function __construct() {
+    private function __construct()
+    {
         $fileContent = file_get_contents(self::FILE_PATH);
 
         if (false === $fileContent) {

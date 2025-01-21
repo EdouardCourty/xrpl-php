@@ -35,13 +35,13 @@ class Blob extends AbstractBinaryType
         [$contentLength, $prefixBytesUsed] = self::decodeLengthPrefix($serialized, $offset);
 
         $startOfData = $offset + $prefixBytesUsed;
-        $dataSegment = substr($serialized, $startOfData, $contentLength);
+        $dataSegment = mb_substr($serialized, $startOfData, $contentLength);
 
-        if (\strlen($dataSegment) !== $contentLength) {
+        if (mb_strlen($dataSegment) !== $contentLength) {
             throw new \RuntimeException(\sprintf(
                 'Blob data is truncated. Expected %d bytes, got %d.',
                 $contentLength,
-                \strlen($dataSegment),
+                mb_strlen($dataSegment),
             ));
         }
 

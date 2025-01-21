@@ -31,8 +31,8 @@ abstract class AbstractBinaryType
 
     public function toSerialized(): string
     {
-        return strtoupper($this->toHex());
+        return mb_strtoupper($this->toHex());
     }
 
-    public static abstract function fromJson(mixed $data): static;
+    abstract public static function fromJson(mixed $data): static;
 }

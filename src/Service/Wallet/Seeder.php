@@ -90,11 +90,11 @@ class Seeder
 
     private static function guessAlgorithm(#[\SensitiveParameter] string $seed): string
     {
-        if (str_starts_with($seed, self::ED25519_SEED_STRING_PREFIX) && \strlen($seed) === self::ED25519_SEED_LENGTH) {
+        if (str_starts_with($seed, self::ED25519_SEED_STRING_PREFIX) && mb_strlen($seed) === self::ED25519_SEED_LENGTH) {
             return Wallet::ALGORITHM_ED25519;
         }
 
-        if (str_starts_with($seed, self::SECP256K1_SEED_STRING_PREFIX) && \strlen($seed) === self::SECP256K1_SEED_LENGTH) {
+        if (str_starts_with($seed, self::SECP256K1_SEED_STRING_PREFIX) && mb_strlen($seed) === self::SECP256K1_SEED_LENGTH) {
             return Wallet::ALGORITHM_SECP256K1;
         }
 

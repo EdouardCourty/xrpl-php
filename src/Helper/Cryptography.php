@@ -37,11 +37,11 @@ class Cryptography
 
     public static function byteStringToArray(string $bytes): array
     {
-        if (\strlen($bytes) === 0) {
+        if (mb_strlen($bytes) === 0) {
             $bytes = mb_str_pad($bytes, 2, '0', \STR_PAD_LEFT);
         }
 
-        return array_map('hexdec', str_split($bytes, 2));
+        return array_map('hexdec', mb_str_split($bytes, 2));
     }
 
     public static function byteArrayToString(array $bytes): string

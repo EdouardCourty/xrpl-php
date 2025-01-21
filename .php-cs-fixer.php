@@ -12,11 +12,11 @@ return $config
     ->setUsingCache(false)
     ->setRiskyAllowed(true)
     ->setRules([
+        '@PSR12' => true,
         'simplified_null_return' => false,
         'concat_space' => ['spacing' => 'one'],
         'phpdoc_summary' => false,
         'linebreak_after_opening_tag' => true,
-        'ordered_imports' => true,
         'phpdoc_order' => true,
         'declare_strict_types' => true,
         'no_superfluous_phpdoc_tags' => true,
@@ -24,7 +24,9 @@ return $config
         'phpdoc_types_order' => ['null_adjustment' => 'none', 'sort_algorithm' => 'none'],
         'trailing_comma_in_multiline' => ['elements' => ['arguments', 'arrays', 'match', 'parameters']],
         'single_line_throw' => false,
-        'visibility_required' => false,
+        'visibility_required' => true,
         'native_function_invocation' => true,
         'native_constant_invocation' => true,
+        'mb_str_functions' => true,
+        'modernize_strpos' => true,
     ]);

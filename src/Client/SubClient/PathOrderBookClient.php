@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace XRPL\Client\SubClient;
@@ -141,7 +142,7 @@ readonly class PathOrderBookClient extends AbstractClient
 
         $nftBuyOffers = $this->serializer->deserialize(json_encode($response), NFTBuyOffers::class, 'json');
 
-        if($nftBuyOffers->nftId === null) {
+        if ($nftBuyOffers->nftId === null) {
             throw NFTNotFoundException::fromIdentifier($nftId);
         }
 
@@ -167,7 +168,7 @@ readonly class PathOrderBookClient extends AbstractClient
 
         $nftSellOffers = $this->serializer->deserialize(json_encode($response), NFTSellOffers::class, 'json');
 
-        if($nftSellOffers->nftId === null) {
+        if ($nftSellOffers->nftId === null) {
             throw NFTNotFoundException::fromIdentifier($nftId);
         }
 

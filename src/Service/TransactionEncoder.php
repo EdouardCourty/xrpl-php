@@ -239,7 +239,7 @@ class TransactionEncoder
         }
 
         $blob = new Blob($transactionArray);
-        $payload = $prefix . strtoupper($blob->toHex()) . $suffix;
+        $payload = $prefix . mb_strtoupper($blob->toHex()) . $suffix;
 
         $keyPairService = KeyPairGenerator::getKeypairGenerator($wallet->seed->algorithm);
 
