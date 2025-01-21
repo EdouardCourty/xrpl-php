@@ -30,7 +30,7 @@ readonly class Seed
             ),
         );
 
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
         $checkSum = \array_slice($checkBytes, 0, 4);
 
         return $checkSum === $this->checksum;

@@ -33,4 +33,15 @@ class CryptographyHelperTest extends TestCase
 
         $this->assertEquals('ecourty', $decoded);
     }
+
+    /**
+     * @covers ::halfSha512
+     */
+    public function testHalfSHa512(): void
+    {
+        $value = 'AB12CD34F5';
+
+        $expectedHash = '78E7F547F0A21C78B67CEA78C7B5B22E9E1E102569D780D31F665785553D915E';
+        $this->assertEquals($expectedHash, mb_strtoupper(Cryptography::halfSha512(hex2bin($value))));
+    }
 }

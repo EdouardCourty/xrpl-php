@@ -19,7 +19,7 @@ class ED25519KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
     {
         $payload = $seed->payload;
 
-        $halfSha512 = mb_strtoupper(bin2hex(Cryptography::halfSha512(Cryptography::byteArrayToString($payload))));
+        $halfSha512 = mb_strtoupper(Cryptography::halfSha512(Cryptography::byteArrayToString($payload)));
 
         $elliptic = new EdDSA($seed->algorithm);
         $rawKeypair = $elliptic->keyFromSecret($halfSha512);

@@ -32,7 +32,7 @@ class Cryptography
      */
     public static function doubleSha256(string $data): string
     {
-        return hash('sha256', hash('sha256', $data, true), true);
+        return hash('sha256', hash('sha256', $data, true));
     }
 
     public static function byteStringToArray(string $bytes): array
@@ -51,12 +51,11 @@ class Cryptography
 
     public static function halfSha512(string $string): string
     {
-        $binaryHash = hash('sha512', $string, true);
-        $hexValue = bin2hex($binaryHash);
+        $binaryHash = hash('sha512', $string);
 
-        $encoded = self::byteStringToArray($hexValue);
+        $encoded = self::byteStringToArray($binaryHash);
         $half = \array_slice($encoded, 0, 32);
 
-        return self::byteArrayToString($half);
+        return bin2hex(self::byteArrayToString($half));
     }
 }

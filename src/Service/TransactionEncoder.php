@@ -19,6 +19,32 @@ use XRPL\ValueObject\Wallet;
  */
 class TransactionEncoder
 {
+    /**
+     * @param array<string, mixed> $transactionData
+     */
+    public static function encodeForSingleSign(array $transactionData, Wallet $wallet): string
+    {
+        $transactionData['SigningPubKey'] = $wallet->getPublicKey();
+        $transactionFields = self::getSigningFields($transactionData);
+        $transactionFields['TxnSignature'] = self::computeSignature($transactionFields, $wallet);
+
+        $serializedFields = self::serializeFields($transactionFields);
+
+        $sorted = self::sortFields($serializedFields);
+
+        $transactionArray = [];
+
+        foreach ($sorted as $value) {
+            $transactionArray = array_merge($transactionArray, $value);
+        }
+
+        $blob = new Blob($transactionArray);
+        return $blob->toSerialized(); // Transform the byte array into a uppercase hexadecimal string
+    }
+
+    /**
+     * @param array<string, mixed> $transactionData
+     */
     public static function encodeForMultiSign(array $transactionData, Wallet $wallet): string
     {
         if (isset($transactionData['SigningPubKey']) === true) {
@@ -57,29 +83,6 @@ class TransactionEncoder
     }
 
     /**
-     * @param array<string, AbstractBinaryType> $transactionData
-     */
-    public static function encodeForSingleSign(array $transactionData, Wallet $wallet): string
-    {
-        $transactionData['SigningPubKey'] = $wallet->getPublicKey();
-        $transactionFields = self::getSigningFields($transactionData);
-        $transactionFields['TxnSignature'] = self::computeSignature($transactionFields, $wallet);
-
-        $serializedFields = self::serializeFields($transactionFields);
-
-        $sorted = self::sortFields($serializedFields);
-
-        $transactionArray = [];
-
-        foreach ($sorted as $value) {
-            $transactionArray = array_merge($transactionArray, $value);
-        }
-
-        $blob = new Blob($transactionArray);
-        return $blob->toSerialized(); // Transform the byte array into a uppercase hexadecimal string
-    }
-
-    /**
      * @param array<string, mixed> $transactionData
      */
     public static function getSigningFields(array $transactionData): array
@@ -94,6 +97,9 @@ class TransactionEncoder
         return $transactionData;
     }
 
+    /**
+     * @param array<string, mixed> $transactionData
+     */
     public static function serializeFields(array $transactionData): array
     {
         $serializedFields = [];
@@ -141,7 +147,7 @@ class TransactionEncoder
     }
 
     /**
-     * @param array<string, AbstractBinaryType> $transactionData
+     * @param array<string, array> $transactionData
      */
     public static function sortFields(array $transactionData): array
     {
@@ -185,9 +191,9 @@ class TransactionEncoder
      *
      * @param int $length The number of bytes in the content.
      *
-     * @return array The encoded length prefix.
+     * @return int[] The encoded length prefix.
      */
-    public static function encodeLengthPrefix(int $length): array
+    protected static function encodeLengthPrefix(int $length): array
     {
         if ($length <= 192) {
             // Single-byte length
@@ -217,6 +223,9 @@ class TransactionEncoder
         ));
     }
 
+    /**
+     * @param array<string, mixed> $transactionData
+     */
     private static function computeSignature(
         array $transactionData,
         #[\SensitiveParameter] Wallet $wallet,
@@ -243,6 +252,6 @@ class TransactionEncoder
 
         $keyPairService = KeyPairGenerator::getKeypairGenerator($wallet->seed->algorithm);
 
-        return $keyPairService->sign($payload, $wallet->getPrivateKey());
+        return mb_strtoupper($keyPairService->sign($payload, $wallet->getPrivateKey()));
     }
 }

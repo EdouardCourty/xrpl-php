@@ -39,7 +39,7 @@ class Seeder
         $seedData = array_merge($prefix, $payload);
 
         $check = Cryptography::doubleSha256(Cryptography::byteArrayToString($seedData));
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
 
         $checkSum = \array_slice($checkBytes, 0, 4);
 

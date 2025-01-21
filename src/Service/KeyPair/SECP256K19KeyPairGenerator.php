@@ -66,7 +66,7 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
             $seqHex = mb_str_pad($seqBN->toString('hex'), 8, '00', \STR_PAD_LEFT);
             $seedArray = array_merge($seedArray, Cryptography::byteStringToArray($seqHex));
 
-            $hash = bin2hex(Cryptography::halfSha512(Cryptography::byteArrayToString($seedArray)));
+            $hash = Cryptography::halfSha512(Cryptography::byteArrayToString($seedArray));
             $hashBN = new BN($hash, 16);
 
             if ($hashBN->cmp($zeroBN) != 0 && $hashBN->cmp($this->elliptic->n) < 0) {
@@ -79,7 +79,12 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 
     public function sign(string $message, string $privateKey): string
     {
-        $hash = Cryptography::halfSha512($message);
+        $binaryString = hex2bin($message);
+        if ($binaryString === false) {
+            throw new \InvalidArgumentException('Invalid message');
+        }
+
+        $hash = Cryptography::halfSha512($binaryString);
 
         return $this->elliptic->sign(
             $hash,

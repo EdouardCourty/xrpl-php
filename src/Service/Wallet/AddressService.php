@@ -31,7 +31,7 @@ class AddressService
         $addressBytes = array_merge([self::ADDRESS_PREFIX_ADDRESS], $sliced);
 
         $check = Cryptography::doubleSha256(Cryptography::byteArrayToString($addressBytes));
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
 
         $checkSum = \array_slice($checkBytes, 0, 4);
         $seedBytes = array_merge($addressBytes, $checkSum);
