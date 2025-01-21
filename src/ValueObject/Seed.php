@@ -7,7 +7,7 @@ namespace XRPL\ValueObject;
 use XRPL\Helper\Cryptography;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class Seed
 {
@@ -30,7 +30,7 @@ readonly class Seed
             ),
         );
 
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
         $checkSum = \array_slice($checkBytes, 0, 4);
 
         return $checkSum === $this->checksum;

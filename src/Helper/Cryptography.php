@@ -7,7 +7,7 @@ namespace XRPL\Helper;
 use StephenHill\Base58;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Cryptography
 {
@@ -32,16 +32,16 @@ class Cryptography
      */
     public static function doubleSha256(string $data): string
     {
-        return hash('sha256', hash('sha256', $data, true), true);
+        return hash('sha256', hash('sha256', $data, true));
     }
 
     public static function byteStringToArray(string $bytes): array
     {
-        if (\strlen($bytes) === 0) {
-            $bytes = mb_str_pad($bytes, 2, '0', STR_PAD_LEFT);
+        if (mb_strlen($bytes) === 0) {
+            $bytes = mb_str_pad($bytes, 2, '0', \STR_PAD_LEFT);
         }
 
-        return array_map('hexdec', str_split($bytes, 2));
+        return array_map('hexdec', mb_str_split($bytes, 2));
     }
 
     public static function byteArrayToString(array $bytes): string
@@ -51,12 +51,11 @@ class Cryptography
 
     public static function halfSha512(string $string): string
     {
-        $binaryHash = hash('sha512', $string, true);
-        $hexValue = bin2hex($binaryHash);
+        $binaryHash = hash('sha512', $string);
 
-        $encoded = self::byteStringToArray($hexValue);
+        $encoded = self::byteStringToArray($binaryHash);
         $half = \array_slice($encoded, 0, 32);
 
-        return self::byteArrayToString($half);
+        return bin2hex(self::byteArrayToString($half));
     }
 }

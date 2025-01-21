@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace XRPL\Service\Denormalizer\LedgerEntry;
@@ -9,7 +10,7 @@ use XRPL\Model\Ledger\LedgerEntry\NFTokenOffer;
 use XRPL\Service\Serializer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class NFTokenOfferDenormalizer implements DenormalizerInterface
 {

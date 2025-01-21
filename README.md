@@ -15,6 +15,8 @@ The library is designed to be simple to use and easy to understand. <br />
 - Communicate with the XRP Ledger
 - Manage and generate XRP Ledger wallets
 - Fund your testnet / devnet wallets using the Faucet
+- Sign and submit transactions to the XRP Ledger
+  - Support for Single-Signature and Multi-Signature transactions
 - Translate XRP to Drops amounts
 
 Here are some [usage examples](#examples).
@@ -60,6 +62,51 @@ $seed = 'sEd7Fv8k1vF9R5kFtPbQG7wYyVr'; // Example seed, do not reuse
 $importedWallet = WalletGenerator::generateFromSeed($seed);
 // Also works as Wallet::generateFromSeed($seed);
 ```
+
+#### Submitting a transaction to the XRP Ledger
+
+You can submit a transaction to the XRP Ledger with multiple approaches: <br />
+```php
+<?php
+
+use XRPL\Client\XRPLClient;
+use XRPL\ValueObject\Wallet;
+
+$client = new XRPLClient('https://s1.ripple.com:51234');
+
+$wallet = Wallet::generateFromSeed('...')
+
+/**
+ * @see https://xrpl.org/docs/references/protocol/transactions/types
+ */
+$transactionData = [
+    'Account' => $wallet->getAddress(),
+    'TransactionType' => 'Payment',
+    'Destination' => 'r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59',
+    'Amount' => '1000000',
+    // ...
+];
+
+// 1. Use the XRPLCLient to submit the transaction directly
+$client->submitTransaction($transactionData, $wallet);
+
+// 2. Hash the transaction yourself and submit it
+$client->autofillTransaction(transactionData); // Add the missing fields if not already set (Fee, Sequence, LastLedgerSequence)
+$transactionBlob = $wallet->sign($transactionData);
+
+$client->transaction->submitOnly($transactionBlob);
+```
+
+**Autofilling Transaction Fields**
+
+The XRP Ledger requires some fields to be set in the transaction data. <br />
+These fields are:
+- `Fee`
+- `Sequence`
+- `LastLedgerSequence`
+
+If you want to automatically fill these fields in the transaction data, you can use the `autofillTransaction` method. <br />
+This will query the correct values from your account and fill them in the transaction data.
 
 #### Adding funds on a TestNet / DevNet wallet
 

@@ -12,7 +12,7 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class KeyPairGenerator
 {
@@ -25,7 +25,7 @@ class KeyPairGenerator
         return self::getKeypairGenerator($seed->algorithm)->deriveKeyPair($seed);
     }
 
-    private static function getKeypairGenerator(string $algorithm): AbstractAlgorithmAwareKeyPairGenerator
+    public static function getKeypairGenerator(string $algorithm): AbstractAlgorithmAwareKeyPairGenerator
     {
         return match ($algorithm) {
             Wallet::ALGORITHM_ED25519 => new ED25519KeyPairGenerator(),

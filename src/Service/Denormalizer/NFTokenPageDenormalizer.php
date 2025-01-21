@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace XRPL\Service\Denormalizer;
@@ -9,7 +10,7 @@ use XRPL\Model\Ledger\LedgerEntry\NFTokenPage;
 use XRPL\Service\Serializer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class NFTokenPageDenormalizer implements DenormalizerInterface
 {
@@ -27,7 +28,7 @@ readonly class NFTokenPageDenormalizer implements DenormalizerInterface
         $NFTokenPage->flags = $data['Flags'];
         $NFTokenPage->nextPageMin = $data['NextPageMin'] ?? null;
         $NFTokenPage->NFTokens = array_map(
-            fn(array $NFToken) => $this->serializer->deserialize(json_encode($NFToken), NFToken::class, 'json'),
+            fn (array $NFToken) => $this->serializer->deserialize(json_encode($NFToken), NFToken::class, 'json'),
             $data['NFTokens'],
         );
         $NFTokenPage->previousPageMin = $data['PreviousPageMin'] ?? null;

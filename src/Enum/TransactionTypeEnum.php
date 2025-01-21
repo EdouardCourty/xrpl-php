@@ -7,7 +7,7 @@ namespace XRPL\Enum;
 use XRPL\Model\Transaction\BaseTransaction;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 enum TransactionTypeEnum: string
 {

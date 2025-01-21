@@ -11,7 +11,7 @@ use XRPL\Model\ServerInfo\ServerState;
 use XRPL\Model\ServerInfo\VersionResults;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class ServerInfoClient extends AbstractClient
 {

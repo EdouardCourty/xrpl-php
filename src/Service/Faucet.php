@@ -9,7 +9,7 @@ use XRPL\Enum\Network;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Faucet
 {
@@ -18,7 +18,7 @@ class Faucet
      */
     public static function addFunds(Wallet|string $walletOrAddress, Network $network = Network::TESTNET): void
     {
-        $address = \is_string($walletOrAddress) ? $walletOrAddress : $walletOrAddress->address;
+        $address = \is_string($walletOrAddress) ? $walletOrAddress : $walletOrAddress->getAddress();
 
         $httpClient = HttpClient::createForBaseUri($network->getFaucetUrl());
         $response = $httpClient->request('POST', '/accounts', [

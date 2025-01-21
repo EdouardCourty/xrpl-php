@@ -7,7 +7,7 @@ namespace XRPL\Service\Wallet;
 use XRPL\Helper\Cryptography;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class AddressService
 {
@@ -26,12 +26,12 @@ class AddressService
         $hexValue = bin2hex($hash160);
 
         $byteArray = Cryptography::byteStringToArray($hexValue);
-        $sliced = \array_slice($byteArray, 0, 32); // Not sure this is useful, since byteArray is (always) 20 long
+        $sliced = \array_slice($byteArray, 0, 32);
 
         $addressBytes = array_merge([self::ADDRESS_PREFIX_ADDRESS], $sliced);
 
         $check = Cryptography::doubleSha256(Cryptography::byteArrayToString($addressBytes));
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
 
         $checkSum = \array_slice($checkBytes, 0, 4);
         $seedBytes = array_merge($addressBytes, $checkSum);

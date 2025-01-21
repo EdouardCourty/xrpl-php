@@ -6,7 +6,7 @@ namespace XRPL\Model\Response;
 
 class RippledResponse
 {
-    public mixed $result;
+    public array $result;
     /** @var Warning[] $warnings */
     public array $warnings = [];
 }

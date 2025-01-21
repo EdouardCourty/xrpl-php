@@ -9,7 +9,7 @@ use XRPL\Model\Common\CurrencyAmount;
 use XRPL\Service\Denormalizer\CurrencyAmountDenormalizer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  *
  * @coversDefaultClass \XRPL\Service\Denormalizer\CurrencyAmountDenormalizer
  */

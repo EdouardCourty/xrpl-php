@@ -8,7 +8,7 @@ use XRPL\Model\PaymentChannel\ChannelAuthorize;
 use XRPL\Model\PaymentChannel\ChannelVerify;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class PaymentChannelClient extends AbstractClient
 {

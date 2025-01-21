@@ -9,7 +9,7 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 abstract class AbstractAlgorithmAwareKeyPairGenerator
 {
@@ -21,5 +21,7 @@ abstract class AbstractAlgorithmAwareKeyPairGenerator
         Wallet::ALGORITHM_SECP256K1 => self::PREFIX_SECP256K1,
     ];
 
-    public abstract function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPair;
+    abstract public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPair;
+
+    abstract public function sign(string $message, string $privateKey): string;
 }

@@ -8,7 +8,7 @@ use XRPL\Client\JsonRpcClient;
 use XRPL\Service\Serializer;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 abstract readonly class AbstractClient
 {

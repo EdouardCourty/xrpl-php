@@ -8,5 +8,4 @@ use XRPL\Model\AbstractTransaction;
 
 class BaseTransaction extends AbstractTransaction
 {
-
 }

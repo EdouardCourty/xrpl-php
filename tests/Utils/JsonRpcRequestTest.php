@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use XRPL\Utils\JsonRpcRequest;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  *
  * @coversDefaultClass  \XRPL\Utils\JsonRpcRequest
  */

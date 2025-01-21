@@ -17,7 +17,7 @@ use XRPL\Model\Account\GatewayBalances;
 use XRPL\Model\Account\NoRippleCheck;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class AccountClient extends AbstractClient
 {

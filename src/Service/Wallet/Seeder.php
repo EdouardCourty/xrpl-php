@@ -9,7 +9,7 @@ use XRPL\ValueObject\Seed;
 use XRPL\ValueObject\Wallet;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class Seeder
 {
@@ -39,7 +39,7 @@ class Seeder
         $seedData = array_merge($prefix, $payload);
 
         $check = Cryptography::doubleSha256(Cryptography::byteArrayToString($seedData));
-        $checkBytes = Cryptography::byteStringToArray(bin2hex($check));
+        $checkBytes = Cryptography::byteStringToArray($check);
 
         $checkSum = \array_slice($checkBytes, 0, 4);
 
@@ -90,11 +90,11 @@ class Seeder
 
     private static function guessAlgorithm(#[\SensitiveParameter] string $seed): string
     {
-        if (str_starts_with($seed, self::ED25519_SEED_STRING_PREFIX) && \strlen($seed) === self::ED25519_SEED_LENGTH) {
+        if (str_starts_with($seed, self::ED25519_SEED_STRING_PREFIX) && mb_strlen($seed) === self::ED25519_SEED_LENGTH) {
             return Wallet::ALGORITHM_ED25519;
         }
 
-        if (str_starts_with($seed, self::SECP256K1_SEED_STRING_PREFIX) && \strlen($seed) === self::SECP256K1_SEED_LENGTH) {
+        if (str_starts_with($seed, self::SECP256K1_SEED_STRING_PREFIX) && mb_strlen($seed) === self::SECP256K1_SEED_LENGTH) {
             return Wallet::ALGORITHM_SECP256K1;
         }
 

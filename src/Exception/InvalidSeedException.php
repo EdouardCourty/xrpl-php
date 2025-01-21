@@ -7,7 +7,7 @@ namespace XRPL\Exception;
 use Throwable;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class InvalidSeedException extends \Exception
 {

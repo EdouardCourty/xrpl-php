@@ -11,13 +11,19 @@ use XRPL\Model\Transaction\SubmittedTransaction;
 use XRPL\Model\Transaction\TransactionEntry;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class TransactionClient extends AbstractClient
 {
+    private const string TX_SUBMIT_SUCCESS = 'tesSUCCESS';
+
+    /**
+     * @param bool $ignoreFailure If true, the method will not throw an exception if the transaction submission fails.
+     */
     public function submitOnly(
         string $transactionBlob,
         bool $failHard = false,
+        bool $ignoreFailure = false,
     ): SubmittedTransaction {
         $params = [
             'tx_blob' => $transactionBlob,
@@ -26,7 +32,13 @@ readonly class TransactionClient extends AbstractClient
 
         $response = $this->jsonRpcClient->getResult('submit', $params);
 
-        return $this->serializer->deserialize(json_encode($response), SubmittedTransaction::class, 'json');
+        $submitResponse = $this->serializer->deserialize(json_encode($response), SubmittedTransaction::class, 'json');
+
+        if ($submitResponse->engineResult !== self::TX_SUBMIT_SUCCESS && $ignoreFailure === false) {
+            throw new \RuntimeException('Transaction submission failed: ' . $submitResponse->engineResult);
+        }
+
+        return $submitResponse;
     }
 
     public function signAndSubmit(

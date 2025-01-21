@@ -6,10 +6,11 @@ namespace XRPL\ValueObject;
 
 use XRPL\Enum\Network;
 use XRPL\Service\Faucet;
+use XRPL\Service\TransactionEncoder;
 use XRPL\Service\Wallet\WalletGenerator;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class Wallet
 {
@@ -26,7 +27,7 @@ readonly class Wallet
         public Seed $seed,
         #[\SensitiveParameter]
         public KeyPair $keyPair,
-        public string $address,
+        private string $address,
     ) {
     }
 
@@ -51,5 +52,30 @@ readonly class Wallet
     public static function generateFromSeed(#[\SensitiveParameter] string $seed): self
     {
         return WalletGenerator::generateFromSeed($seed);
+    }
+
+    public function getPublicKey(): string
+    {
+        return $this->keyPair->publicKey;
+    }
+
+    public function getPrivateKey(): string
+    {
+        return $this->keyPair->privateKey;
+    }
+
+    public function sign(array $transactionData): string
+    {
+        return TransactionEncoder::encodeForSingleSign($transactionData, $this);
+    }
+
+    public function multiSign(array $transactionData): string
+    {
+        return TransactionEncoder::encodeForMultiSign($transactionData, $this);
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
     }
 }

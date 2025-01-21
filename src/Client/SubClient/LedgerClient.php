@@ -12,7 +12,7 @@ use XRPL\Model\Ledger\LedgerEntry;
 use XRPL\Model\Ledger\LedgerResult;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class LedgerClient extends AbstractClient
 {
@@ -35,6 +35,10 @@ readonly class LedgerClient extends AbstractClient
             'ledger_hash' => $ledgerHash,
             'ledger_index' => $ledgerIndex,
         ];
+
+        if ($payload['ledger_index'] === null && $payload['ledger_hash'] === null) {
+            $payload['ledger_index'] = 'validated';
+        }
 
         $response = $this->jsonRpcClient->getResult('ledger', $payload);
 

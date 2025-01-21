@@ -10,7 +10,7 @@ namespace XRPL\Model\Common;
  *
  * @see https://xrpl.org/docs/references/protocol/data-types/basic-data-types#specifying-currency-amounts
  *
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class CurrencyAmount
 {

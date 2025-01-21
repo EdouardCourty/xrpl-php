@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace XRPL\Utils;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 readonly class JsonRpcRequest
 {
@@ -21,7 +21,7 @@ readonly class JsonRpcRequest
 
     public function toArray(): array
     {
-        $filteredParams = array_filter($this->params, static fn($value) => $value !== null);
+        $filteredParams = array_filter($this->params, static fn ($value) => $value !== null);
         $params = empty($filteredParams) ? [] : [$filteredParams];
 
         return [

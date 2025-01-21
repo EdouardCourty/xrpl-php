@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use XRPL\Model\Ledger\LedgerEntry\Nested\NFToken;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  */
 class NFTokenDenormalizer implements DenormalizerInterface
 {

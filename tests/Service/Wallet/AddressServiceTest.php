@@ -10,7 +10,7 @@ use XRPL\Service\Wallet\AddressService;
 use XRPL\Service\Wallet\WalletGenerator;
 
 /**
- * @author Edouard Courty <edouard.courty2@gmail.com>
+ * @author Edouard Courty
  *
  * @coversDefaultClass \XRPL\Service\Wallet\AddressService
  */
