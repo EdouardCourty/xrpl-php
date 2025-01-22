@@ -4,35 +4,53 @@ declare(strict_types=1);
 
 namespace XRPL\ValueObject;
 
+use XRPL\Contract\KeyPairInterface;
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\KeyPairGenerator;
 use XRPL\Service\Wallet\Seeder;
 
 /**
  * @author Edouard Courty
  */
-readonly class KeyPair
+readonly class KeyPair implements KeyPairInterface
 {
     public function __construct(
         #[\SensitiveParameter]
-        public string $privateKey,
+        private string $privateKey,
         #[\SensitiveParameter]
-        public string $publicKey,
+        private string $publicKey,
     ) {
     }
 
-    public static function generate(string $algorithm): self
+    /**
+     * Facade method to generate a random keypair
+     */
+    public static function generate(Algorithm $algorithm): KeyPairInterface
     {
         $seed = Seeder::generateSeed($algorithm);
 
         return self::generateFromSeed($seed);
     }
 
-    public static function generateFromSeed(#[\SensitiveParameter] Seed|string $seed): self
+    /**
+     * Facade method to generate a keypair from a seed
+     */
+    public static function generateFromSeed(#[\SensitiveParameter] Seed|string $seed): KeyPairInterface
     {
         if (\is_string($seed)) {
             $seed = Seeder::generateSeedFromString($seed);
         }
 
         return KeyPairGenerator::generateKeyPair($seed);
+    }
+
+    public function getPrivateKey(): string
+    {
+        return $this->privateKey;
+    }
+
+    public function getPublicKey(): string
+    {
+        return $this->publicKey;
     }
 }

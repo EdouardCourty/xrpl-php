@@ -6,10 +6,11 @@ namespace XRPL\Service\KeyPair;
 
 use BN\BN;
 use Elliptic\EC;
+use XRPL\Contract\KeyPairInterface;
+use XRPL\Enum\Algorithm;
 use XRPL\Helper\Cryptography;
 use XRPL\ValueObject\KeyPair;
 use XRPL\ValueObject\Seed;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -20,17 +21,19 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 
     public function __construct()
     {
-        $this->elliptic = new EC(Wallet::ALGORITHM_SECP256K1);
+        $this->elliptic = new EC(Algorithm::SECP256K1->value);
     }
 
-    public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPair
+    public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPairInterface
     {
         $payload = $seed->payload;
 
         $privateKey = $this->derivePrivateKey($payload, $validator, $index);
         $publicKey = $this->elliptic->g->mul(new BN($privateKey, 16))->encodeCompressed('hex');
 
-        return new KeyPair(parent::PREFIX_SECP256K1 . mb_strtoupper($privateKey), mb_strtoupper($publicKey));
+        $privateKeyPrefix = self::getAlgorithm()->getKeyPrefix();
+
+        return new KeyPair($privateKeyPrefix . mb_strtoupper($privateKey), mb_strtoupper($publicKey));
     }
 
     private function derivePrivateKey(array $seedPayload, bool $validator, int $index): string
@@ -92,5 +95,10 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
             'hex',
             ['canonical' => true],
         )->toDER('hex');
+    }
+
+    public static function getAlgorithm(): Algorithm
+    {
+        return Algorithm::SECP256K1;
     }
 }

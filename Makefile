@@ -13,7 +13,7 @@ test:
 	$(PHP) $(PHPUNIT) tests
 
 phpstan:
-	$(PHP) $(PHPSTAN) analyse src
+	$(PHP) $(PHPSTAN) analyse
 
 phpcs:
 	$(PHP) $(PHPCSFIXER) fix . --config .php-cs-fixer.php --allow-risky=yes

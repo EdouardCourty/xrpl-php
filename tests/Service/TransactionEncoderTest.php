@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace XRPL\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
+use XRPL\Helper\XRPConverter;
 use XRPL\Service\TransactionEncoder;
+use XRPL\Tests\Support\ExternalWallet;
 use XRPL\ValueObject\Wallet;
 
 /**
@@ -133,5 +135,25 @@ class TransactionEncoderTest extends TestCase
             '1200002400025C36201B0006F85561D3038D7EA4C6800000000000000000000000000055534400000000005E7B112523F68D2F5E879DB4EAC51C6698A6930468400000000000000C7300811498741DD80730B0E3F993BE2D4C5090EF7EB2D1128314F064A0F32B2A2BE3552FAA7F9077C45BDEA3021DF3E0107321EDEA366EAD792FDEAE00C7A32B49E3EF763EEE5BDD30CDA7586D5C8FE04A8EDC9374403B7DAB54CDF856BC2E55884838E4C6B654DEC2086237CB05E0F08669C3B1B427E122A78C07029F7E541262E8248AA44B75D08B5011530B4FBDD40E7B842EBF05811498741DD80730B0E3F993BE2D4C5090EF7EB2D112E1F1F9EA7C0522222222227D0511111111117E050000000000E1EA7C0544444444447D0533333333337E055555555555E1F1',
             $blob,
         );
+    }
+
+    public function testTransactionEncodingWithExternalWalletIntegration(): void
+    {
+        $walletSeed = 'sEd74Y86KkYYmiCPnGgk5UjZPMn8hdY';
+
+        $contractWallet = new ExternalWallet(); // This is a hardcoded wallet, corresponding to the seed above, using the WalletInterface contract
+        $originalWallet = Wallet::generateFromSeed($walletSeed);
+
+        $transactionPayload = [
+            'TransactionType' => 'Payment',
+            'Account' => $originalWallet->getAddress(),
+            'Destination' => 'rNuaFncML9vq15nzEZd828h3K7x9ipN3xj',
+            'Amount' => XRPConverter::xrpToDrops('10'),
+        ];
+
+        $encodedWithContractWallet = TransactionEncoder::encodeForSingleSign($transactionPayload, $contractWallet);
+        $encodedWithOriginalWallet = TransactionEncoder::encodeForSingleSign($transactionPayload, $originalWallet);
+
+        $this->assertSame($encodedWithOriginalWallet, $encodedWithContractWallet);
     }
 }

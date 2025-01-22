@@ -11,8 +11,9 @@ use XRPL\Client\SubClient\PaymentChannelClient;
 use XRPL\Client\SubClient\ServerInfoClient;
 use XRPL\Client\SubClient\TransactionClient;
 use XRPL\Client\SubClient\UtilityClient;
+use XRPL\Contract\WalletInterface;
 use XRPL\Service\Serializer;
-use XRPL\ValueObject\Wallet;
+use XRPL\Service\TransactionEncoder;
 
 /**
  * @author Edouard Courty
@@ -73,27 +74,17 @@ readonly class XRPLClient
     }
 
     /**
-     * Autofill and sign the transaction
-     */
-    public function autofillAndSign(array $transactionData, Wallet $wallet): string
-    {
-        $this->autofillTransaction($transactionData);
-
-        return $wallet->sign($transactionData);
-    }
-
-    /**
      * @param bool $autofill Whether to autofill the transaction before signing it
      *
      * @return string The hash of the submitted transaction
      */
-    public function submitSingleSignTransaction(array $transactionData, Wallet $wallet, bool $autofill = true): string
+    public function submitSingleSignTransaction(array $transactionData, WalletInterface $wallet, bool $autofill = true): string
     {
         if ($autofill === true) {
             $this->autofillTransaction($transactionData);
         }
 
-        $transactionBlob = $wallet->sign($transactionData);
+        $transactionBlob = TransactionEncoder::encodeForSingleSign($transactionData, $wallet);
 
         return $this->transaction->submitOnly($transactionBlob)->txJson['hash'];
     }
@@ -103,13 +94,13 @@ readonly class XRPLClient
      *
      * @return string The hash of the submitted transaction
      */
-    public function submitMultiSignTransaction(array $transactionData, Wallet $wallet, bool $autofill = true): string
+    public function submitMultiSignTransaction(array $transactionData, WalletInterface $wallet, bool $autofill = true): string
     {
         if ($autofill === true) {
             $this->autofillTransaction($transactionData);
         }
 
-        $transactionBlob = $wallet->multiSign($transactionData);
+        $transactionBlob = TransactionEncoder::encodeForMultiSign($transactionData, $wallet);
 
         return $this->transaction->submitOnly($transactionBlob)->txJson['hash'];
     }

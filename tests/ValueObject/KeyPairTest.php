@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace XRPL\Tests\ValueObject;
 
 use PHPUnit\Framework\TestCase;
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\Seeder;
 use XRPL\Service\Wallet\WalletGenerator;
 use XRPL\ValueObject\KeyPair;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -24,7 +24,7 @@ class KeyPairTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
 
-        KeyPair::generate(Wallet::ALGORITHM_ED25519);
+        KeyPair::generate(Algorithm::ED25519);
     }
 
     /**
@@ -32,7 +32,7 @@ class KeyPairTest extends TestCase
      */
     public function testItGeneratesFromSeed(): void
     {
-        $seed = Seeder::generateSeed(Wallet::ALGORITHM_ED25519);
+        $seed = Seeder::generateSeed(Algorithm::ED25519);
 
         $keypair = KeyPair::generateFromSeed($seed);
         $keypair2 = WalletGenerator::generateFromSeed($seed)->keyPair;

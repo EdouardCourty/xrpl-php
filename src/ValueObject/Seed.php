@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XRPL\ValueObject;
 
+use XRPL\Enum\Algorithm;
 use XRPL\Helper\Cryptography;
 
 /**
@@ -12,7 +13,7 @@ use XRPL\Helper\Cryptography;
 readonly class Seed
 {
     public function __construct(
-        public string $algorithm,
+        public Algorithm $algorithm,
         #[\SensitiveParameter]
         public array $prefix,
         #[\SensitiveParameter]
@@ -48,5 +49,10 @@ readonly class Seed
                 array_merge($this->prefix, $this->payload, $this->checksum),
             ),
         );
+    }
+
+    public function getPayload(): array
+    {
+        return $this->payload;
     }
 }

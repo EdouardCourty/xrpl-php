@@ -6,6 +6,7 @@ namespace XRPL\Tests\Service\Wallet;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\WalletGenerator;
 use XRPL\ValueObject\Wallet;
 
@@ -19,41 +20,28 @@ class WalletGeneratorTest extends TestCase
     private const string SEED_WALLET_EC25519 = 'sEdVGHpyraFT5a24PGvfYa26tLLDfKj';
     private const string SEED_WALLET_SECP256K1 = 'shAn5KQML2FF1aBmSA2g9HNJztJ6f';
 
-    /**
-     * @covers ::generate
-     */
-    public function testGenerateWalletWithInvalidAlgorithm(): void
-    {
-        $this->expectException(\UnexpectedValueException::class);
-
-        WalletGenerator::generate('invalid');
-    }
-
     #[DataProvider('provideAlgorithms')]
-    public function testGenerateWallet(string $algorithm): void
+    public function testGenerateWallet(Algorithm $algorithm): void
     {
         $wallet = WalletGenerator::generate($algorithm);
 
         $this->assertWallet($wallet, $algorithm);
     }
 
-    private function assertWallet(Wallet $wallet, string $algorithm): void
+    private function assertWallet(Wallet $wallet, Algorithm $algorithm): void
     {
-        $this->assertNotEmpty($wallet->keyPair->publicKey);
-        $this->assertNotEmpty($wallet->keyPair->privateKey);
+        $this->assertNotEmpty($wallet->getPublicKey());
+        $this->assertNotEmpty($wallet->getPrivateKey());
 
-        $this->assertNotEmpty($wallet->seed->toString());
+        $this->assertNotEmpty($wallet->getSeedString());
         $this->assertNotEmpty($wallet->getAddress());
 
-        $this->assertEquals($algorithm, $wallet->seed->algorithm);
+        $this->assertEquals($algorithm, $wallet->getAlgorithm());
     }
 
-    /**
-     * @return iterable<string>
-     */
-    public static function provideAlgorithms(): iterable
+    public static function provideAlgorithms(): \Generator
     {
-        foreach (Wallet::ALGORITHMS as $algorithm) {
+        foreach (Algorithm::cases() as $algorithm) {
             yield [$algorithm];
         }
     }

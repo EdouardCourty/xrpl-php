@@ -6,11 +6,10 @@ namespace XRPL\Tests\Service\Wallet;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use XRPL\Service\KeyPair\AbstractAlgorithmAwareKeyPairGenerator;
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\KeyPairGenerator;
 use XRPL\Service\Wallet\Seeder;
 use XRPL\ValueObject\Seed;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -24,7 +23,7 @@ class KeyPairGeneratorTest extends TestCase
      */
     public function testGenerateKeyPairWithInvalidSeed(): void
     {
-        $validSeed = Seeder::generateSeed(Wallet::ALGORITHM_ED25519);
+        $validSeed = Seeder::generateSeed(Algorithm::ED25519);
 
         $invalidSeed = new Seed($validSeed->algorithm, $validSeed->prefix, [1, 2, 3, 4, 5, 6, 7, 8, 19, 10], $validSeed->checksum);
         $this->expectException(\UnexpectedValueException::class);
@@ -37,24 +36,21 @@ class KeyPairGeneratorTest extends TestCase
      * @covers ::getKeypairGenerator
      */
     #[DataProvider('provideAlgorithms')]
-    public function testGenerateKeyPair(string $algorithm): void
+    public function testGenerateKeyPair(Algorithm $algorithm): void
     {
         $seed = Seeder::generateSeed($algorithm);
         $keyPair = KeyPairGenerator::generateKeyPair($seed);
 
-        $this->assertNotEmpty($keyPair->publicKey);
-        $this->assertNotEmpty($keyPair->privateKey);
+        $this->assertNotEmpty($keyPair->getPublicKey());
+        $this->assertNotEmpty($keyPair->getPrivateKey());
 
-        $algorithmSeedPrefix = AbstractAlgorithmAwareKeyPairGenerator::PREFIX_MAPPING[$algorithm];
-        $this->assertStringStartsWith($algorithmSeedPrefix, $keyPair->privateKey);
+        $algorithmSeedPrefix = $algorithm->getKeyPrefix();
+        $this->assertStringStartsWith($algorithmSeedPrefix, $keyPair->getPrivateKey()); // @phpstan-ignore-line
     }
 
-    /**
-     * @return iterable<string>
-     */
-    public static function provideAlgorithms(): iterable
+    public static function provideAlgorithms(): \Generator
     {
-        foreach (Wallet::ALGORITHMS as $algorithm) {
+        foreach (Algorithm::cases() as $algorithm) {
             yield [$algorithm];
         }
     }
