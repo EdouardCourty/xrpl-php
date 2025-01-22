@@ -4,6 +4,19 @@
 
 A PHP library to interact with an XRP Ledger Node.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [XRP Ledger Communication](#xrp-ledger-communication)
+  - [XRP Ledger Wallet Management](#xrp-ledger-wallet-management)
+  - [Submitting a transaction to the XRP Ledger](#submitting-a-transaction-to-the-xrp-ledger)
+  - [Code examples](#code-examples)
+  - [Adding funds on a TestNet / DevNet wallet](#adding-funds-on-a-testnet--devnet-wallet)
+- [Contracts](#contracts)
+- [Examples](#examples)
+
 ## Features
 
 This library provides a simple way to interact with an XRP Ledger Node. <br />
@@ -52,11 +65,12 @@ You can generate or import a wallet as follows: <br />
 ```php
 <?php
 
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\WalletGenerator;
 use XRPL\ValueObject\Wallet;
 
-$newWallet = WalletGenerator::generate(Wallet::ALGORITHM_SECP256K1);
-// Also works as Wallet::generate(Wallet::ALGORITHM_SECP256K1);
+$newWallet = WalletGenerator::generate(Algorithm::SECP256K1);
+// Also works as Wallet::generate(Algorithm::ALGORITHM_SECP256K1);
 
 $seed = 'sEd7Fv8k1vF9R5kFtPbQG7wYyVr'; // Example seed, do not reuse
 $importedWallet = WalletGenerator::generateFromSeed($seed);
@@ -138,6 +152,16 @@ You can add funds to a TestNet / DevNet wallet using either the `Wallet` class o
     $wallet = Wallet::generate(); // Or import a wallet using ::generateFromSeed
     Faucet::addFunds($wallet); // Adds 100 XRP to the wallet
     ```
+
+## Contracts
+
+`xrpl-php` implements two contracts to allow for seamless integration with external systems:
+- `XRPL\Contract\Wallet`
+- `XRPL\Contract\KeyPair`
+
+The provided `Wallet` and `KeyPair` classes implement these contracts. <br />
+
+You can implement these interfaces in your own classes to allow for easy integration with `xrpl-php`. <br />
 
 ## Examples
 

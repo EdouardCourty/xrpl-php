@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use XRPL\Client\XRPLClient;
@@ -13,7 +15,7 @@ use XRPL\ValueObject\Wallet;
 $wallet = Wallet::generate(); // You can also import an existing wallet (See 1 - Manage wallets.php)
 Faucet::addFunds($wallet);
 
-echo 'Wallet generated and funded!' . PHP_EOL;
+echo 'Wallet generated and funded!' . \PHP_EOL;
 
 $client = new XRPLClient('https://s.altnet.rippletest.net:51234');
 
@@ -28,4 +30,4 @@ $transactionData = [
 
 $client->submitSingleSignTransaction($transactionData, $wallet);
 
-echo 'NFT minted!' . PHP_EOL;
+echo 'NFT minted!' . \PHP_EOL;
