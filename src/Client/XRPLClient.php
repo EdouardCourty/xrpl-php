@@ -68,7 +68,7 @@ readonly class XRPLClient
         if (isset($transactionData['LastLedgerSequence']) === false) {
             $lastLedger = $this->ledger->getLedger();
 
-            $transactionData['LastLedgerSequence'] = $lastLedger->ledgerIndex + 15;
+            $transactionData['LastLedgerSequence'] = $lastLedger->ledgerIndex + 25;
         }
     }
 
@@ -87,11 +87,29 @@ readonly class XRPLClient
      *
      * @return string The hash of the submitted transaction
      */
-    public function submitTransaction(array $transactionData, Wallet $wallet, bool $autofill = true): string
+    public function submitSingleSignTransaction(array $transactionData, Wallet $wallet, bool $autofill = true): string
     {
-        $transactionBlob = $autofill === true
-            ? $this->autofillAndSign($transactionData, $wallet)
-            : $wallet->sign($transactionData);
+        if ($autofill === true) {
+            $this->autofillTransaction($transactionData);
+        }
+
+        $transactionBlob = $wallet->sign($transactionData);
+
+        return $this->transaction->submitOnly($transactionBlob)->txJson['hash'];
+    }
+
+    /**
+     * @param bool $autofill Whether to autofill the transaction before signing it
+     *
+     * @return string The hash of the submitted transaction
+     */
+    public function submitMultiSignTransaction(array $transactionData, Wallet $wallet, bool $autofill = true): string
+    {
+        if ($autofill === true) {
+            $this->autofillTransaction($transactionData);
+        }
+
+        $transactionBlob = $wallet->multiSign($transactionData);
 
         return $this->transaction->submitOnly($transactionBlob)->txJson['hash'];
     }
