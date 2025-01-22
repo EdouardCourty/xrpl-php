@@ -66,6 +66,7 @@ $importedWallet = WalletGenerator::generateFromSeed($seed);
 #### Submitting a transaction to the XRP Ledger
 
 You can submit a transaction to the XRP Ledger with multiple approaches: <br />
+
 ```php
 <?php
 
@@ -88,7 +89,8 @@ $transactionData = [
 ];
 
 // 1. Use the XRPLCLient to submit the transaction directly
-$client->submitTransaction($transactionData, $wallet);
+$client->submitSingleSignTransaction($transactionData, $wallet);
+$client->submitMultiSignTransaction($transactionData, $wallet, $signers);
 
 // 2. Hash the transaction yourself and submit it
 $client->autofillTransaction(transactionData); // Add the missing fields if not already set (Fee, Sequence, LastLedgerSequence)
@@ -107,6 +109,10 @@ These fields are:
 
 If you want to automatically fill these fields in the transaction data, you can use the `autofillTransaction` method. <br />
 This will query the correct values from your account and fill them in the transaction data.
+
+#### Code examples
+
+Code examples can be found in the [examples](examples) directory. <br />
 
 #### Adding funds on a TestNet / DevNet wallet
 
