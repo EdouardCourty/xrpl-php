@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XRPL\ValueObject;
 
+use XRPL\Contract\KeyPairInterface;
+use XRPL\Contract\WalletInterface;
+use XRPL\Enum\Algorithm;
 use XRPL\Enum\Network;
 use XRPL\Service\Faucet;
 use XRPL\Service\TransactionEncoder;
@@ -12,21 +15,13 @@ use XRPL\Service\Wallet\WalletGenerator;
 /**
  * @author Edouard Courty
  */
-readonly class Wallet
+readonly class Wallet implements WalletInterface
 {
-    public const string ALGORITHM_ED25519 = 'ed25519';
-    public const string ALGORITHM_SECP256K1 = 'secp256k1';
-
-    public const array ALGORITHMS = [
-        self::ALGORITHM_ED25519,
-        self::ALGORITHM_SECP256K1,
-    ];
-
     public function __construct(
         #[\SensitiveParameter]
         public Seed $seed,
         #[\SensitiveParameter]
-        public KeyPair $keyPair,
+        public KeyPairInterface $keyPair,
         private string $address,
     ) {
     }
@@ -44,24 +39,24 @@ readonly class Wallet
         Faucet::addFunds($this, $network);
     }
 
-    public static function generate(string $algorithm = self::ALGORITHM_ED25519): self
+    public static function generate(Algorithm $algorithm = Algorithm::ED25519): WalletInterface
     {
         return WalletGenerator::generate($algorithm);
     }
 
-    public static function generateFromSeed(#[\SensitiveParameter] string $seed): self
+    public static function generateFromSeed(#[\SensitiveParameter] string $seed): WalletInterface
     {
         return WalletGenerator::generateFromSeed($seed);
     }
 
     public function getPublicKey(): string
     {
-        return $this->keyPair->publicKey;
+        return $this->keyPair->getPublicKey();
     }
 
     public function getPrivateKey(): string
     {
-        return $this->keyPair->privateKey;
+        return $this->keyPair->getPrivateKey();
     }
 
     public function sign(array $transactionData): string
@@ -77,5 +72,10 @@ readonly class Wallet
     public function getAddress(): string
     {
         return $this->address;
+    }
+
+    public function getAlgorithm(): Algorithm
+    {
+        return $this->seed->algorithm;
     }
 }

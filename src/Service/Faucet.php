@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace XRPL\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
+use XRPL\Contract\WalletInterface;
 use XRPL\Enum\Network;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -16,7 +16,7 @@ class Faucet
     /**
      * Will add 100 XRP to the wallet.
      */
-    public static function addFunds(Wallet|string $walletOrAddress, Network $network = Network::TESTNET): void
+    public static function addFunds(WalletInterface|string $walletOrAddress, Network $network = Network::TESTNET): void
     {
         $address = \is_string($walletOrAddress) ? $walletOrAddress : $walletOrAddress->getAddress();
 

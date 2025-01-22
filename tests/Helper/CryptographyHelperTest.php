@@ -42,6 +42,6 @@ class CryptographyHelperTest extends TestCase
         $value = 'AB12CD34F5';
 
         $expectedHash = '78E7F547F0A21C78B67CEA78C7B5B22E9E1E102569D780D31F665785553D915E';
-        $this->assertEquals($expectedHash, mb_strtoupper(Cryptography::halfSha512(hex2bin($value))));
+        $this->assertEquals($expectedHash, mb_strtoupper(Cryptography::halfSha512((string) hex2bin($value))));
     }
 }

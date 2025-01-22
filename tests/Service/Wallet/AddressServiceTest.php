@@ -23,15 +23,12 @@ class AddressServiceTest extends TestCase
     public function testAddressDerivation(string $seed, string $expectedAddress): void
     {
         $wallet = WalletGenerator::generateFromSeed($seed);
-        $computedAddress = AddressService::deriveAddress($wallet->keyPair->publicKey);
+        $computedAddress = AddressService::deriveAddress($wallet->getPublicKey());
 
         $this->assertSame($computedAddress, $expectedAddress);
     }
 
-    /**
-     * @return iterable<array<string , string>>
-     */
-    public static function generateDataForAddressDerivation(): iterable
+    public static function generateDataForAddressDerivation(): \Generator
     {
         yield ['sEdVGHpyraFT5a24PGvfYa26tLLDfKj', 'rJKiaAMWMWBJhGtUZEN4AfpwWaTSzJanFq'];
         yield ['shAn5KQML2FF1aBmSA2g9HNJztJ6f', 'rwDEBXpEwRDfMV3zVY9HdeAxguy9XaDsE8'];

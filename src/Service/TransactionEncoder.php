@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XRPL\Service;
 
+use XRPL\Contract\WalletInterface;
 use XRPL\Service\Signature\ServerDefinitions;
 use XRPL\Service\Wallet\KeyPairGenerator;
 use XRPL\Type\AbstractBinaryType;
@@ -12,7 +13,6 @@ use XRPL\Type\Blob;
 use XRPL\Type\STObject;
 use XRPL\Type\TransactionType;
 use XRPL\Utils\SignaturePrefix;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -22,7 +22,7 @@ class TransactionEncoder
     /**
      * @param array<string, mixed> $transactionData
      */
-    public static function encodeForSingleSign(array $transactionData, Wallet $wallet): string
+    public static function encodeForSingleSign(array $transactionData, WalletInterface $wallet): string
     {
         $transactionData['SigningPubKey'] = $wallet->getPublicKey();
         $transactionFields = self::getSigningFields($transactionData);
@@ -45,7 +45,7 @@ class TransactionEncoder
     /**
      * @param array<string, mixed> $transactionData
      */
-    public static function encodeForMultiSign(array $transactionData, Wallet $wallet): string
+    public static function encodeForMultiSign(array $transactionData, WalletInterface $wallet): string
     {
         if (isset($transactionData['SigningPubKey']) === true) {
             throw new \LogicException('Cannot multi-sign a transaction containing a SigningPukKey.');
@@ -228,7 +228,7 @@ class TransactionEncoder
      */
     private static function computeSignature(
         array $transactionData,
-        #[\SensitiveParameter] Wallet $wallet,
+        #[\SensitiveParameter] WalletInterface $wallet,
         ?string $multiSignAddress = null,
     ): string {
         $prefix = dechex($multiSignAddress === null ? SignaturePrefix::TRANSACTION_SIGN : SignaturePrefix::TRANSACTION_MULTISIGN);
@@ -250,7 +250,7 @@ class TransactionEncoder
         $blob = new Blob($transactionArray);
         $payload = $prefix . mb_strtoupper($blob->toHex()) . $suffix;
 
-        $keyPairService = KeyPairGenerator::getKeypairGenerator($wallet->seed->algorithm);
+        $keyPairService = KeyPairGenerator::getKeypairGenerator($wallet->getAlgorithm());
 
         return mb_strtoupper($keyPairService->sign($payload, $wallet->getPrivateKey()));
     }

@@ -6,9 +6,9 @@ namespace XRPL\Tests\ValueObject;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use XRPL\Enum\Algorithm;
 use XRPL\Service\Wallet\Seeder;
 use XRPL\ValueObject\Seed;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
@@ -32,7 +32,7 @@ class SeedTest extends TestCase
     public static function provideSeeds(): iterable
     {
         // Valid seed
-        $validSeed = Seeder::generateSeed(Wallet::ALGORITHM_ED25519);
+        $validSeed = Seeder::generateSeed(Algorithm::ED25519);
         yield [$validSeed, true];
 
         // Invalid seed: wrong checksum

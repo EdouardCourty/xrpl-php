@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace XRPL\Service\KeyPair;
 
-use XRPL\ValueObject\KeyPair;
+use XRPL\Contract\KeyPairInterface;
+use XRPL\Enum\Algorithm;
 use XRPL\ValueObject\Seed;
-use XRPL\ValueObject\Wallet;
 
 /**
  * @author Edouard Courty
  */
 abstract class AbstractAlgorithmAwareKeyPairGenerator
 {
-    protected const string PREFIX_ED25519 = 'ED';
-    protected const STRING PREFIX_SECP256K1 = '00';
-
-    public const array PREFIX_MAPPING = [
-        Wallet::ALGORITHM_ED25519 => self::PREFIX_ED25519,
-        Wallet::ALGORITHM_SECP256K1 => self::PREFIX_SECP256K1,
-    ];
-
-    abstract public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPair;
+    abstract public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPairInterface;
 
     abstract public function sign(string $message, string $privateKey): string;
+
+    abstract public static function getAlgorithm(): Algorithm;
 }
