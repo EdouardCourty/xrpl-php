@@ -50,9 +50,4 @@ readonly class Seed
             ),
         );
     }
-
-    public function getPayload(): array
-    {
-        return $this->payload;
-    }
 }

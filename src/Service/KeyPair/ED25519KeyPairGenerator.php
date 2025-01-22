@@ -18,11 +18,11 @@ class ED25519KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 {
     public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPairInterface
     {
-        $payload = $seed->getPayload();
+        $payload = $seed->payload;
 
         $halfSha512 = mb_strtoupper(Cryptography::halfSha512(Cryptography::byteArrayToString($payload)));
 
-        $elliptic = new EdDSA($seed->algorithm->value);
+        $elliptic = new EdDSA(self::getAlgorithm()->value);
         $rawKeypair = $elliptic->keyFromSecret($halfSha512);
 
         $keyPrefix = self::getAlgorithm()->getKeyPrefix();
@@ -35,7 +35,7 @@ class ED25519KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 
     public function sign(string $message, string $privateKey): string
     {
-        $elliptic = new EdDSA(Algorithm::ED25519->value);
+        $elliptic = new EdDSA(self::getAlgorithm()->value);
         $signed = $elliptic->sign($message, mb_substr($privateKey, 2));
 
         return $signed->toHex();

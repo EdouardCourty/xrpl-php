@@ -21,7 +21,7 @@ class SECP256K19KeyPairGenerator extends AbstractAlgorithmAwareKeyPairGenerator
 
     public function __construct()
     {
-        $this->elliptic = new EC(Algorithm::SECP256K1->value);
+        $this->elliptic = new EC(self::getAlgorithm()->value);
     }
 
     public function deriveKeyPair(Seed $seed, bool $validator = false, int $index = 0): KeyPairInterface
