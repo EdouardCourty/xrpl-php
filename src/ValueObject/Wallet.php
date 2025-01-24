@@ -39,12 +39,12 @@ readonly class Wallet implements WalletInterface
         Faucet::addFunds($this, $network);
     }
 
-    public static function generate(Algorithm $algorithm = Algorithm::ED25519): WalletInterface
+    public static function generate(Algorithm $algorithm = Algorithm::ED25519): Wallet
     {
         return WalletGenerator::generate($algorithm);
     }
 
-    public static function generateFromSeed(#[\SensitiveParameter] string $seed): WalletInterface
+    public static function generateFromSeed(#[\SensitiveParameter] string $seed): Wallet
     {
         return WalletGenerator::generateFromSeed($seed);
     }
