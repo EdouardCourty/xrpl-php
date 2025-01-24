@@ -25,8 +25,15 @@ $transactionData = [
     'TransactionType' => 'Payment',
     'Account' => $originWallet->getAddress(),
     'Destination' => $receiverWallet->getAddress(),
-    'Amount' => XRPConverter::xrpToDrops(25), // 25 XRP
+    'Amount' => XRPConverter::xrpToDrops('25'), // 25 XRP, converted to drops
 ];
+
+// Issued currency can be used using the following format:
+// 'Amount' => [
+//     'currency' => 'USD',
+//     'value' => '100',
+//     'issuer' => 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
+// ]
 
 $client->submitSingleSignTransaction($transactionData, $originWallet);
 
