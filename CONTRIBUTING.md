@@ -1,6 +1,6 @@
 # Contributing to XRPL-PHP
 
-Thank you for considering contributing to **xrp-php**! <br />
+Thank you for considering contributing to **xrpl-php**! <br />
 All contributions are appreciated, whether it's bug reports, feature requests, or code improvements. <br />
 The following guidelines will help you get started and ensure a smooth contribution process.
 

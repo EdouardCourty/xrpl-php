@@ -15,12 +15,20 @@ use XRPL\Type\Currency;
  */
 class CurrencyTest extends TestCase
 {
-    public function testCurrency(): void
+    public function testCurrencyWithStandardCode(): void
     {
         $currency = new Currency('USD');
-        $serialized = $currency->toHex();
+        $serialized = $currency->toserialized();
 
         $this->assertEquals('0000000000000000000000005553440000000000', $serialized);
+    }
+
+    public function testCurrencyWithNonStandardCode(): void
+    {
+        $currency = new Currency('524C555344000000000000000000000000000000');
+        $serialized = $currency->toserialized();
+
+        $this->assertEquals('524C555344000000000000000000000000000000', $serialized);
     }
 
     /**
@@ -38,5 +46,6 @@ class CurrencyTest extends TestCase
     {
         yield ['US'];
         yield ['USDD'];
+        yield ['524C555344000000000000000000000000000'];
     }
 }
